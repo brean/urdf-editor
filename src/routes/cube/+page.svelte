@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Canvas, T, useThrelte } from '@threlte/core'
+	import { Canvas, OrbitControls, T } from '@threlte/core'
 
 </script>
 
@@ -16,7 +16,7 @@
 		<T.DirectionalLight position.y={5} position.x={3} />
 
 		<T.PerspectiveCamera makeDefault let:ref={camera} position.y={10} position.x={10}>
-			<T.OrbitControls />
+      <OrbitControls />
 		</T.PerspectiveCamera>
 
 	</Canvas>
