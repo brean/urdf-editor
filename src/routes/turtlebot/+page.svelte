@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { Canvas, OrbitControls, T } from '@threlte/core'
+  import Urdf from './Urdf.svelte';
 
 </script>
 
 <div>
 	<Canvas>
 
-		<T.Mesh>
-			<T.BoxGeometry />
-			<T.MeshStandardMaterial>
-				<T.Color args={['#ff0000']} attach="color" />
-			</T.MeshStandardMaterial>
-		</T.Mesh>
+		<Urdf filename="/turtlebot3_description/turtlebot3_burger.xml" />
 
 		<T.DirectionalLight position.y={5} position.x={3} />
 

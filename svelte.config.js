@@ -7,7 +7,6 @@ import { preprocessThrelte } from '@threlte/preprocess';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	preprocess: seqPreprocessor([vitePreprocess(), preprocessThrelte()]),
-
 	kit: {
 		adapter: adapter()
 	}
