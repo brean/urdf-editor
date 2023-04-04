@@ -8,13 +8,15 @@ import { preprocessThrelte } from '@threlte/preprocess';
 const config = {
 	preprocess: seqPreprocessor([vitePreprocess(), preprocessThrelte()]),
 	kit: {
+		appDir: 'app',
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
 			fallback: 'index.html'
 		}),
 		paths: {
-			base: '/svelte-3d-urdf'
+			base: '/svelte-3d-urdf',
+			relative: true
 		}
 		
 	}
