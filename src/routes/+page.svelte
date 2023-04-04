@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas, OrbitControls, T } from '@threlte/core'
-  import Urdf from './Urdf.svelte';
+  import Urdf from '../components/Urdf.svelte';
 
 </script>
 
@@ -13,7 +13,7 @@
 		<T.PointLight color="yellow" intensity={0.5} position={[-5, -5, 0]} /-->
 
 		<T.PerspectiveCamera makeDefault let:ref={camera}
-			position={[.5, .5, .5]} fov={25}
+			position={[.6, .6, .6]} fov={25}
 
 			 >
       <OrbitControls enableZoom={true} />
