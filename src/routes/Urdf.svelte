@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { T } from '@threlte/core'
   import { Quaternion, Vector3 } from 'three';
-  import UrdfParser from '../../UrdfParser';
+  import UrdfParser from '../UrdfParser';
   import UrdfJoint from './UrdfJoint.svelte';
 
   export let filename: string;

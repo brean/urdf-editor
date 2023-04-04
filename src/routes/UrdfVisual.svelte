@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { IUrdfMesh } from "../../models/IUrdfMesh";
-  import type { IUrdfVisual } from "../../models/IUrdfVisual";
-  import { numberArrayToColor } from "../../helper";
+  import type { IUrdfMesh } from "../models/IUrdfMesh";
+  import type { IUrdfVisual } from "../models/IUrdfVisual";
+  import { numberArrayToColor } from "../helper";
   import DAE from "./DAE.svelte";
   import STL from "./STL.svelte";
   import { T } from "@threlte/core";

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { T } from '@threlte/core'
-  import type { IUrdfJoint } from '../../models/IUrdfJoint';
-  import type UrdfParser from '../../UrdfParser';
+  import type { IUrdfJoint } from '../models/IUrdfJoint';
+  import type UrdfParser from '../UrdfParser';
   import UrdfVisual from './UrdfVisual.svelte';
 
   export let joint: IUrdfJoint;
