@@ -1,3 +1,5 @@
+import { Color, Euler, Quaternion, Vector3 } from "three";
+
 export function numberStringToArray(
     child: Element, name: string = 'xyz'): number[] | undefined {
   // parse a list of values from a string 
@@ -13,4 +15,33 @@ export function numberStringToArray(
       return arr;
     }
   }
+}
+
+export function numberArrayToColor(col?: number[]) {
+  if (!col) {
+    return new Color('white')
+  }
+  return new Color(col[0], col[1], col[2]);
+}
+
+export function numberArrayToVector3(vec?: number[]) {
+  if (!vec) {
+    return new Vector3(0, 0, 0);
+  }
+  return new Vector3(vec[0], vec[1], vec[2]);
+}
+
+export function numberArrayToEuler(rpy?: number[]) {
+  if (!rpy) {
+    return new Euler(0, 0, 0);
+  }
+
+  return new Euler(rpy[0], rpy[1], rpy[2]);
+}
+
+export function numberArrayToQuaternion(quat?: number[]) {
+  if (!quat) {
+    return new Quaternion(0, 0, 0, 1);
+  }
+  return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
 }

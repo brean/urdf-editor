@@ -2,27 +2,34 @@
 	import { T } from '@threlte/core'
   import { Quaternion, Vector3 } from 'three';
   import UrdfParser from '../../UrdfParser';
+  import UrdfJoint from './UrdfJoint.svelte';
 
   export let filename: string;
-  export let position: Vector3 = new Vector3(0, -1, 0);
-  export let quaternion: Quaternion;
+  export let position: number[] = [0, -1, 0];
+  export let quaternion: number[] | undefined;
 
   const parser = new UrdfParser(filename);
   const promise = parser.load()
   
+  // the axis in Three are different from urdf
   if (!quaternion) {
-    quaternion = new Quaternion();
-    // the axis in Three are different from urdf
-    quaternion.setFromAxisAngle(new Vector3(-1, 0, 0), Math.PI * 0.5);
+    const quat = new Quaternion();
+    quat.setFromAxisAngle(new Vector3(-1, 0, 0), Math.PI * 0.5);
+    quaternion = [quat.x, quat.y, quat.z, quat.w];
   }
+  
 
 </script>
 
 {#await promise}
+  <!-- Loading {filename} -->
 {:then elem}
-  <T.Group quaternion={quaternion} position={position}>
-    {#each parser.getRootJoints(elem) as joint}
-      {joint.name}
+  {@html `<!-- ${filename} -->`}
+  <T.Group position={position} quaternion={quaternion}>
+    {#each parser.getRootJoints() as joint}
+      <UrdfJoint 
+        joint={joint}
+      />
     {/each}
   </T.Group>
 {/await}

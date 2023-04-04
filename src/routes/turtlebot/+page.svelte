@@ -7,13 +7,14 @@
 <div>
 	<Canvas>
 
-		<Urdf filename="/turtlebot3_description/turtlebot3_burger.xml" />
-
 		<T.DirectionalLight position.y={5} position.x={3} />
 
-		<T.PerspectiveCamera makeDefault let:ref={camera} position.y={10} position.x={10}>
+		<T.PerspectiveCamera makeDefault let:ref={camera}
+			position={[1, 1, 1]}>
       <OrbitControls />
 		</T.PerspectiveCamera>
+
+		<Urdf filename="/turtlebot3_description/turtlebot3_burger.xml" />
 
 	</Canvas>
 </div>

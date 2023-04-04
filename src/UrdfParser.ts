@@ -276,7 +276,8 @@ export default class UrdfParser {
     for (const joint of this.joints) {
       let isRoot = true;
       // go through all joints again and check if they have a child that
-      // match this joint
+      // match this joint, if not the current joint does not have a parent
+      // and is a root joint.
       for (const parentJoint of this.joints) {
         if (joint.parent.name === parentJoint.child.name) {
           isRoot = false
@@ -284,6 +285,7 @@ export default class UrdfParser {
         }
       }
       if (isRoot) {
+        // add current root to root joint-list
         rootJoints.push(joint);
       }
     }
