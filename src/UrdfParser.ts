@@ -28,8 +28,12 @@ export default class UrdfParser {
   // all joints defined in the URDF
   joints: IUrdfJoint[] = [];
 
-  constructor(filename: string) {
+  // folder where the model-meshes are stored 
+  prefix: string = '';
+
+  constructor(filename: string, prefix:string = '') {
     this.filename = filename;
+    this.prefix = prefix;
   }
 
   async load() {
@@ -164,7 +168,7 @@ export default class UrdfParser {
           }
           // parse file type
           let filename = child.getAttribute('filename') as string
-          filename = filename.replace('package:/', '');
+          filename = filename.replace('package:/', this.prefix);
           let type = 'stl';
           switch (filename.substring(filename.length - 3)) {
             case 'fbx':
