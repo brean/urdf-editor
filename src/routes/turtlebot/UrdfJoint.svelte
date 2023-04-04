@@ -1,18 +1,19 @@
 <script lang="ts">
 	import { T } from '@threlte/core'
-  import type { Euler, Vector3 } from 'three';
-  import { numberArrayToEuler, numberArrayToVector3 } from '../../helper';
   import type { IUrdfJoint } from '../../models/IUrdfJoint';
+  import type UrdfParser from '../../UrdfParser';
   import UrdfVisual from './UrdfVisual.svelte';
 
   export let joint: IUrdfJoint;
-  let position: Vector3 = numberArrayToVector3(joint.origin_xyz);
-  let euler: Euler = numberArrayToEuler(joint.origin_rpy);
+  export let parser: UrdfParser;
 </script>
 
-{@html `<!-- Joint ${joint.name}  -->`}
-<!-- <T.Group rotation={euler} position={position}> -->
+{@html `<!-- Joint ${joint.name} -->`}
+<T.Group rotation={joint.origin_rpy} position={joint.origin_xyz}>
   {#each joint.child.visual as visual}
-    <UrdfVisual visual={visual} />  
+    <UrdfVisual visual={visual} />
+    {#each parser.getChildJoints(joint.child) as child}
+      <svelte:self joint={child} parser={parser} />
+    {/each}
   {/each}
-<!-- </T.Group> -->
+</T.Group>

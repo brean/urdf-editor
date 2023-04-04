@@ -2,32 +2,35 @@
   import { T, useLoader, useThrelte } from '@threlte/core';
   import { createEventDispatcher } from 'svelte'
   import { BufferGeometry, Color } from 'three';
-  import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+  import { ColladaLoader, type Collada } from 'three/examples/jsm/loaders/ColladaLoader';
 
   export let filename: string;
+  // use pink as fallback color
   export let color: Color = new Color('pink');
   export let scale: number[] = [1, 1, 1];
-
+  export let rotation: number[] = [1, 1, 1];
+  export let position: number[] = [1, 1, 1];
 
 
   const dispatch = createEventDispatcher<{
-    load: BufferGeometry
+    load: Collada
     unload: undefined
     error: string
   }>();
 
   const { invalidate } = useThrelte();
 
-  const loader = useLoader(STLLoader, () => new STLLoader());
+  const loader = useLoader(ColladaLoader, () => new ColladaLoader());
 
   let geometry: BufferGeometry | undefined = undefined;
-  const onLoad = (loadedGeometry: BufferGeometry) => {
+  const onLoad = (collada: Collada) => {
     if (geometry) {
       dispatch('unload');
     }
-    geometry = loadedGeometry;
-    invalidate('STL: model loaded');
-    dispatch('load', loadedGeometry);
+    // TODO: show collada-scene
+    // geometry = collada.scene.children[0];
+    invalidate('Collada: model loaded');
+    dispatch('load', collada);
   }
 
   const onError = (e: ErrorEvent) => {
@@ -41,7 +44,8 @@
 
 {#if geometry}
   {@html `<!-- include stl: ${filename} ${scale} -->`}
-  <T.Mesh geometry={geometry} scale={scale}>
+  <T.Mesh castShadow receiveShadow geometry={geometry} scale={scale}
+    position={position} rotation={rotation}>
 		<T.MeshLambertMaterial color={color} />
 	</T.Mesh>
 {/if}

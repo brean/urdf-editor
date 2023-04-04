@@ -5,8 +5,8 @@
   import UrdfJoint from './UrdfJoint.svelte';
 
   export let filename: string;
-  export let position: number[] = [0, -1, 0];
-  export let quaternion: number[] | undefined;
+  export let position: number[] = [0, 0, 0];
+  export let quaternion: number[] | undefined = undefined;
 
   const parser = new UrdfParser(filename);
   const promise = parser.load()
@@ -17,7 +17,6 @@
     quat.setFromAxisAngle(new Vector3(-1, 0, 0), Math.PI * 0.5);
     quaternion = [quat.x, quat.y, quat.z, quat.w];
   }
-  
 
 </script>
 
@@ -29,6 +28,7 @@
     {#each parser.getRootJoints() as joint}
       <UrdfJoint 
         joint={joint}
+        parser={parser}
       />
     {/each}
   </T.Group>
