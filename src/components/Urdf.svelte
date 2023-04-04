@@ -9,7 +9,7 @@
   export let quaternion: number[] | undefined = undefined;
   let prefix = window.location.href;
 
-  const parser = new UrdfParser(filename, prefix);
+  const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
   const promise = parser.load()
   
   // the axis in Three are different from urdf
