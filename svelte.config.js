@@ -8,7 +8,6 @@ import { preprocessThrelte } from '@threlte/preprocess';
 const config = {
 	preprocess: seqPreprocessor([vitePreprocess(), preprocessThrelte()]),
 	kit: {
-		appDir: 'app',
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
