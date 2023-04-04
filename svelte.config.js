@@ -12,7 +12,11 @@ const config = {
 			pages: 'build',
 			assets: 'build',
 			fallback: 'index.html'
-		})
+		}),
+		paths: {
+			base: '/svelte-3d-urdf'
+		}
+		
 	}
 };
 
