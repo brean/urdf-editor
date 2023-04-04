@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static';
 import seqPreprocessor from 'svelte-sequential-preprocessor'
 import { vitePreprocess } from '@sveltejs/kit/vite';
 import { preprocessThrelte } from '@threlte/preprocess';
@@ -8,7 +8,11 @@ import { preprocessThrelte } from '@threlte/preprocess';
 const config = {
 	preprocess: seqPreprocessor([vitePreprocess(), preprocessThrelte()]),
 	kit: {
-		adapter: adapter()
+		adapter: adapter({
+			pages: 'build',
+			assets: 'build',
+			fallback: 'index.html'
+		})
 	}
 };
 
