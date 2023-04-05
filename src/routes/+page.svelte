@@ -10,7 +10,7 @@
 	<Canvas shadows
 		rendererParameters={{logarithmicDepthBuffer: true}}>
 
-		<T.PointLight color="white" intensity={.5} position={[0, 5, 0]} />
+		<T.PointLight color="white" intensity={.2} position={[0, 5, 0]} />
 		<T.PointLight color="blue" intensity={0.5} position={[5, 5, 0]} />
 		<T.PointLight color="yellow" intensity={0.5} position={[-5, -5, 0]} />
 
@@ -21,7 +21,7 @@
       <OrbitControls enableZoom={true} />
 		</T.PerspectiveCamera>
 
-		<Stage />
+		<Stage preset_name="soft" />
 		<Grid />
 		<Urdf filename="/turtlebot3_description/turtlebot3_burger.xml" />
 

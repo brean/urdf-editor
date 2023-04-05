@@ -10,7 +10,7 @@
   export let preset_name: 'rembrandt' | 'portrait' | 'upfront' | 'soft' = 'rembrandt';
   export let shadowBias: number = -0.0001;
   export let normalBias: number = 0;
-  export let shadowSize: number = 1024;
+  export let shadowSize: number = 256;
   export let height: number = 1.0;
   export let shadowOffset: number = 1.0;
   let prefix = window.location.href;
