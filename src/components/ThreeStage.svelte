@@ -13,7 +13,6 @@
   export let shadowSize: number = 256;
   export let height: number = 1.0;
   export let shadowOffset: number = 1.0;
-  let prefix = window.location.href;
 
   const presets = {
     rembrandt: {
