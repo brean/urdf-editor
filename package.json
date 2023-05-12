@@ -14,6 +14,7 @@
 	},
 	"devDependencies": {
 		"@dimforge/rapier3d-compat": "^0.11.2",
+		"@smui/button": "^7.0.0-beta.8",
 		"@smui/drawer": "^7.0.0-beta.8",
 		"@smui/list": "^7.0.0-beta.8",
 		"@smui/select": "^7.0.0-beta.8",
@@ -37,5 +38,7 @@
 		"typescript": "^5.0.0",
 		"vite": "^4.2.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+	}
 }
