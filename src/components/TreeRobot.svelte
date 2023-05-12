@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Item, Text, Graphic } from '@smui/list';
+  import List, { Item, Text, Graphic } from '@smui/list';
   import type UrdfParser from '../UrdfParser';
   import TreeJoint from './TreeJoint.svelte';
 
@@ -12,13 +12,25 @@
 	}
 </script>
 
-<Item on:SMUI:action={toggle}>
-  <Graphic class="material-icons">{expanded ? 'folder_open' : 'folder'}</Graphic>
-  <Text>{parser.name}</Text>
-</Item>
+<List>
+  <Item on:SMUI:action={toggle}>
+    <Graphic class="material-icons">{expanded ? 'folder_open' : 'folder'}</Graphic>
+    <Text>{parser.name}</Text>
+  </Item>
 
-{#if expanded}
-  {#each parser.getRootJoints() as joint}
-    <TreeJoint joint={joint} parser={parser} />
-  {/each}
-{/if}
+  {#if expanded}
+    <Item wrapper>
+      <List class="sub-list">
+      {#each parser.getRootJoints() as joint}
+        <TreeJoint joint={joint} parser={parser} />
+      {/each}
+      </List>
+    </Item>
+  {/if}
+</List>
+
+<style>
+  * :global(.sub-list) {
+    padding-left: 10px;
+  }
+</style>

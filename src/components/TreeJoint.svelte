@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Item, Text, Graphic } from '@smui/list';
+  import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
   import type { IUrdfJoint } from '../models/IUrdfJoint';
   import type UrdfParser from '../UrdfParser';
 
@@ -20,16 +20,21 @@
   {:else}
   <Graphic class="material-icons">circle</Graphic>
   {/if}
-  <Text >{joint.name}</Text>
+  <Text class="bigtext">
+    <!-- Joint -->
+    <PrimaryText>{joint.name}</PrimaryText>
+    <!-- Links -->
+    <SecondaryText>{joint.parent.name} -&gt; {joint.child.name}</SecondaryText>
+  </Text>
 </Item>
 
-<!-- links -->
-<!--Item>
-  <Text>{joint.parent.name} -&gt; {joint.child.name}</Text>
-</Item-->
 
-{#if expanded}
-  {#each childJoints as childJoint}
-    <svelte:self joint={childJoint} parser={parser} />
-  {/each}
+{#if childJoints.length > 0 && expanded}
+  <Item wrapper>
+    <List class="sub-list">
+      {#each childJoints as childJoint}
+        <svelte:self joint={childJoint} parser={parser} />
+      {/each}
+    </List>
+  </Item>
 {/if}

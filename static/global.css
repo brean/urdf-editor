@@ -1,3 +1,15 @@
 body {
   margin: 0px;
 }
+
+.sub-list {
+  padding-left: 7px !important;
+}
+
+.bigtext {
+  min-height: 60px;
+}
+
+.mdc-deprecated-list-item__graphic {
+  margin-right: 4px !important;
+}

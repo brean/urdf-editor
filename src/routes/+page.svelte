@@ -34,15 +34,13 @@
 <div class="drawer-container">
   <Drawer>
     <Content>
-      <List>
-        <!-- TODO: load urdf -->
-        {#await promise}
-          {@html `<!-- loading ${filename} -->`}
-        {:then elem}
-          {@html `<!-- ${filename} -->`}
-          <TreeRobot parser={parser} />
-        {/await}
-      </List>
+      <!-- TODO: load urdf -->
+      {#await promise}
+        {@html `<!-- loading ${filename} -->`}
+      {:then elem}
+        {@html `<!-- ${filename} -->`}
+        <TreeRobot parser={parser} />
+      {/await}
     </Content>
   </Drawer>
 
