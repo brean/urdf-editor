@@ -24,7 +24,7 @@
 
   let innerHeight = 0;
   let innerWidth = 0;
-  let drawerWidth = 0;
+  const drawerWidth = 256;
 </script>
 
 <svelte:window
@@ -32,7 +32,7 @@
   bind:innerWidth={innerWidth} />
 
 <div class="drawer-container">
-  <Drawer bind:width={drawerWidth}>
+  <Drawer>
     <Content>
       <List>
         <!-- TODO: load urdf -->
