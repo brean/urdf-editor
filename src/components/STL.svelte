@@ -1,7 +1,7 @@
 <script lang="ts">
   import { T, useLoader, useThrelte } from '@threlte/core';
   import { createEventDispatcher } from 'svelte'
-  import { BufferGeometry, Color } from 'three';
+  import { BufferGeometry, Color, type NormalBufferAttributes } from 'three';
   import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 
   export let filename: string;
@@ -20,30 +20,17 @@
 
   const { invalidate } = useThrelte();
 
-  const loader = useLoader(STLLoader, () => new STLLoader());
+  const loader = useLoader(STLLoader);
 
-  let geometry: BufferGeometry | undefined = undefined;
-  const onLoad = (loadedGeometry: BufferGeometry) => {
-    if (geometry) {
-      dispatch('unload');
-    }
-    geometry = loadedGeometry;
-    invalidate('STL: model loaded');
-    dispatch('load', loadedGeometry);
+  let stl;
+  $: {
+    stl = loader.load(filename)
   }
-
-  const onError = (e: ErrorEvent) => {
-    console.error(e);
-    dispatch('error');
-  }
-
-
-  $: loader.load(filename, onLoad, undefined, onError)
 </script>
 
-{#if geometry}
+{#if $stl}
   {@html `<!-- include stl: ${filename} ${scale} -->`}
-  <T.Mesh castShadow receiveShadow geometry={geometry} scale={scale}
+  <T.Mesh castShadow receiveShadow geometry={$stl} scale={scale}
     position={position} rotation={rotation}>
 		<T.MeshLambertMaterial color={color} />
 	</T.Mesh>

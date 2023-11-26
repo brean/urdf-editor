@@ -293,7 +293,6 @@ export default class UrdfParser {
         rootJoints.push(joint);
       }
     }
-    console.log(rootJoints)
     return rootJoints
   }
 

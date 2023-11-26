@@ -2,7 +2,8 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
 
-  import { Canvas, OrbitControls, T } from '@threlte/core'
+  import { Canvas, T } from '@threlte/core';
+  import { OrbitControls } from '@threlte/extras';
   import UrdfThree from '../components/UrdfThree.svelte';
   import ThreeStage from '../components/ThreeStage.svelte';
   import Grid from '../components/Grid.svelte';
