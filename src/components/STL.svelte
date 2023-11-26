@@ -10,7 +10,7 @@
   export let scale: number[] = [1, 1, 1];
   export let rotation: number[] = [1, 1, 1];
   export let position: number[] = [1, 1, 1];
-
+  export let onclick: () => void;
 
   const dispatch = createEventDispatcher<{
     load: BufferGeometry
@@ -31,6 +31,7 @@
 {#if $stl}
   {@html `<!-- include stl: ${filename} ${scale} -->`}
   <T.Mesh castShadow receiveShadow geometry={$stl} scale={scale}
+    on:click={onclick}
     position={position} rotation={rotation}>
 		<T.MeshLambertMaterial color={color} />
 	</T.Mesh>

@@ -5,6 +5,8 @@
   import DAE from "./DAE.svelte";
   import STL from "./STL.svelte";
   import { T } from "@threlte/core";
+  import { interactivity } from "@threlte/extras";
+  import selection from "../store/selection";
 
   export let visual:IUrdfVisual
   const position = visual.origin_xyz || [0, 0, 0];
@@ -19,12 +21,18 @@
       scale = geom.scale;
       break;
   }
-  
+
+  const onClick = () => {
+    selection.select(visual)
+  }
+
+  interactivity();  
 </script>
 
 {#if visual.type === 'mesh'}
   {#if geom.type === 'stl'}
     <STL
+      onclick={onClick}
       filename={geom.filename}
       position={position}
       rotation={rotation}
@@ -32,6 +40,7 @@
       scale={scale} />
   {:else if geom.type === 'dae'}
     <DAE
+      on:click={onClick}
       filename={geom.filename}
       position={position}
       rotation={rotation}
@@ -41,6 +50,7 @@
 {:else}
 	<T.Mesh castShadow receiveShadow
       scale={scale}
+      on:click={onClick}
       position={position}
       rotation={rotation}>
     {#if visual.type === 'cylinder'}

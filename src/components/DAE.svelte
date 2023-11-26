@@ -10,7 +10,7 @@
   export let scale: number[] = [1, 1, 1];
   export let rotation: number[] = [1, 1, 1];
   export let position: number[] = [1, 1, 1];
-
+  export let onclick: () => void;
 
   const dispatch = createEventDispatcher<{
     load: Collada
@@ -20,31 +20,18 @@
 
   const { invalidate } = useThrelte();
 
-  const loader = useLoader(ColladaLoader, () => new ColladaLoader());
+  const loader = useLoader(ColladaLoader);
 
-  let geometry: BufferGeometry | undefined = undefined;
-  const onLoad = (collada: Collada) => {
-    if (geometry) {
-      dispatch('unload');
-    }
-    // TODO: show collada-scene
-    // geometry = collada.scene.children[0];
-    invalidate('Collada: model loaded');
-    dispatch('load', collada);
+  let dae;
+  $: {
+    dae = loader.load(filename)
   }
-
-  const onError = (e: ErrorEvent) => {
-    console.error(e);
-    dispatch('error');
-  }
-
-
-  $: loader.load(filename, onLoad, undefined, onError)
 </script>
 
-{#if geometry}
+{#if $dae}
   {@html `<!-- include stl: ${filename} ${scale} -->`}
-  <T.Mesh castShadow receiveShadow geometry={geometry} scale={scale}
+  <T.Mesh castShadow receiveShadow geometry={$dae} scale={scale}
+    on:click={onclick}
     position={position} rotation={rotation}>
 		<T.MeshLambertMaterial color={color} />
 	</T.Mesh>

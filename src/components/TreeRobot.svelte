@@ -1,7 +1,7 @@
 <script lang="ts">
   import List, { Item, Text, Graphic } from '@smui/list';
   import type UrdfParser from '../UrdfParser';
-  import TreeJoint from './TreeJoint.svelte';
+  import ThreeJoint from './ThreeJoint.svelte';
 
   export let parser: UrdfParser;
 
@@ -22,7 +22,7 @@
     <Item wrapper>
       <List class="sub-list">
       {#each parser.getRootJoints() as joint}
-        <TreeJoint joint={joint} parser={parser} />
+        <ThreeJoint joint={joint} parser={parser} />
       {/each}
       </List>
     </Item>
