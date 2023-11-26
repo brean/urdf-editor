@@ -9,28 +9,30 @@
 		<link rel="stylesheet" href="smui.css" media="(prefers-color-scheme: light)" />
 		<link rel="stylesheet" href="smui-dark.css" media="screen and (prefers-color-scheme: dark)" />
 		<link rel="stylesheet" href="material_icons.css" />
-		<meta http-equiv="content-security-policy" content="">
-		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/entry/start.63a3b471.js">
-		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/chunks/index.0766f3e4.js">
-		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/chunks/singletons.aec6e287.js">
-		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/entry/app.8796200e.js">
+		
+		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/entry/start.5a8c9a1c.js">
+		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/chunks/scheduler.6e4ca1d0.js">
+		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/chunks/singletons.db1f9dee.js">
+		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/entry/app.57031c6a.js">
+		<link rel="modulepreload" href="/svelte-3d-urdf/_app/immutable/chunks/index.27d5ff66.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents" class="app">
 			<script>
 				{
-					__sveltekit_gkuuxf = {
-						env: {},
+					__sveltekit_bso3hw = {
 						assets: "/svelte-3d-urdf",
 						base: "/svelte-3d-urdf",
-						element: document.currentScript.parentElement
+						env: {}
 					};
 
+					const element = document.currentScript.parentElement;
+
 					Promise.all([
-						import("/svelte-3d-urdf/_app/immutable/entry/start.63a3b471.js"),
-						import("/svelte-3d-urdf/_app/immutable/entry/app.8796200e.js")
+						import("/svelte-3d-urdf/_app/immutable/entry/start.5a8c9a1c.js"),
+						import("/svelte-3d-urdf/_app/immutable/entry/app.57031c6a.js")
 					]).then(([kit, app]) => {
-						kit.start(app, __sveltekit_gkuuxf.element);
+						kit.start(app, element);
 					});
 				}
 			</script>
