@@ -7,6 +7,7 @@
 
   import selection from '../store/selection';
 
+
   export let joint: IUrdfJoint;
   export let parser: UrdfParser;
 </script>

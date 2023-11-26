@@ -40,7 +40,7 @@
       scale={scale} />
   {:else if geom.type === 'dae'}
     <DAE
-      on:click={onClick}
+      onclick={onClick}
       filename={geom.filename}
       position={position}
       rotation={rotation}
