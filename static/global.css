@@ -13,3 +13,11 @@ body {
 .mdc-deprecated-list-item__graphic {
   margin-right: 4px !important;
 }
+
+/* monaco-editor */
+.me {
+    position:absolute; right:0; top:0px;
+    width:50%; height:100%; max-height:100% !important;
+    margin:0; padding:0;
+    overflow:hidden;
+}

@@ -37,11 +37,14 @@ export default class UrdfParser {
   }
 
   async load() {
-    return fetch(this.filename).then(response => response.text())
-      .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-      .then(data => {
-        return this.parseRobotXMLNode(data.documentElement)
-      });
+    return fetch(this.filename).then((response) => {
+      return response.text();
+    })
+  }
+
+  fromString(data: string): IUrdfRobot {
+    let domElem = new window.DOMParser().parseFromString(data, "text/xml")
+    return this.parseRobotXMLNode(domElem.documentElement)
   }
 
   parseRobotXMLNode(robotNode: Element): IUrdfRobot {
