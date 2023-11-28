@@ -33,7 +33,6 @@
 
   let Monaco;
   let divEl: HTMLDivElement;
-  let canvasEl: HTMLCanvasElement;
   let editor: monaco.editor.IStandaloneCodeEditor;
 
   onMount(async () => {
@@ -57,6 +56,11 @@
       automaticLayout: true,
       scrollBeyondLastLine: false
     });
+
+    // editor.getModel()?.onDidChangeContent(() => {
+    //   let txt = editor.getValue();
+    //   robot = parser.fromString(txt);
+    // });
 
     return () => {
       editor.dispose();
