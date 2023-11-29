@@ -22,14 +22,17 @@ export default class UrdfParser {
   // loaded colors from root materials
   colors: { [name: string]: number[] } = {}
 
-  // all links defined in the URDF
-  links: { [name: string]: IUrdfLink } = {}
-
-  // all joints defined in the URDF
-  joints: IUrdfJoint[] = [];
+  robot: IUrdfRobot = {
+    name: '',
+    links: {},
+    joints: []
+  }
 
   // folder where the model-meshes are stored 
   prefix: string = '';
+
+  // the DOM element holding the XML, so we can work non-destructive
+  xmlRobotNode: Element | undefined;
 
   constructor(filename: string, prefix:string = '') {
     this.filename = filename;
@@ -44,6 +47,7 @@ export default class UrdfParser {
 
   fromString(data: string): IUrdfRobot {
     let domElem = new window.DOMParser().parseFromString(data, "text/xml")
+    this.xmlRobotNode = domElem.documentElement;
     return this.parseRobotXMLNode(domElem.documentElement)
   }
 
@@ -58,11 +62,7 @@ export default class UrdfParser {
     this.parseColorsFromRobot(robotNode);
     this.parseLinks(robotNode);
     this.parseJoints(robotNode);
-    return {
-      name: this.name,
-      links: this.links,
-      joints: this.joints
-    }
+    return this.robot;
   }
 
   parseColorsFromRobot(robotNode: Element) {
@@ -113,7 +113,7 @@ export default class UrdfParser {
       const link = {visual: [] as IUrdfVisual[]} as IUrdfLink;
       if (linkXmlNode.hasAttribute('name')) {
         link.name = linkXmlNode.getAttribute('name') as string;
-        this.links[link.name] = link;
+        this.robot.links[link.name] = link;
       }
       for (let j = 0; j < visualXmlNodes.length; j++) {
         link.visual.push(this.parseVisual(visualXmlNodes[j]));
@@ -226,6 +226,8 @@ export default class UrdfParser {
   }
 
   parseJoints(robotNode: Element) {
+    const links = this.robot.links;
+    const joints = this.robot.joints;
     // parse all joints
     const xmlJoints = robotNode.getElementsByTagName('joint');
     for (let i = 0; i < xmlJoints.length; i++) {
@@ -248,8 +250,8 @@ export default class UrdfParser {
       const parentXml = jointXmlNode.getElementsByTagName('parent');
       if (parentXml.length === 1) {
         const parentName = parentXml[0].getAttribute('link')
-        if (parentName && this.links[parentName]) {
-          parent = this.links[parentName];
+        if (parentName && links[parentName]) {
+          parent = links[parentName];
         } else {
           parent = {name: parentName, visual: []} as IUrdfLink
         }
@@ -258,8 +260,8 @@ export default class UrdfParser {
       const childXml = jointXmlNode.getElementsByTagName('child');
       if (childXml.length === 1) {
         const childName = childXml[0].getAttribute('link')
-        if (childName && this.links[childName]) {
-          child = this.links[childName];
+        if (childName && links[childName]) {
+          child = links[childName];
         } else {
           child = {name: childName, visual: []} as IUrdfLink
         }
@@ -272,20 +274,21 @@ export default class UrdfParser {
           parent: parent,
           child: child
         }
-        this.joints.push(joint);
+        joints.push(joint);
       }
     }
   }
 
   getRootJoints(): IUrdfJoint[] {
     // get the root joint(s)
+    const joints = this.robot.joints;
     const rootJoints: IUrdfJoint[] = [];
-    for (const joint of this.joints) {
+    for (const joint of joints) {
       let isRoot = true;
       // go through all joints again and check if they have a child that
       // match this joint, if not the current joint does not have a parent
       // and is a root joint.
-      for (const parentJoint of this.joints) {
+      for (const parentJoint of joints) {
         if (joint.parent.name === parentJoint.child.name) {
           isRoot = false
           break
@@ -300,15 +303,22 @@ export default class UrdfParser {
   }
 
   getChildJoints(parent: IUrdfLink): IUrdfJoint[] {
-    const joints: IUrdfJoint[] = []
-    if (!this.joints) {
+    const childJoints: IUrdfJoint[] = []
+    const joints = this.robot.joints;
+    if (!joints) {
       return []
     }
-    for (const joint of this.joints) {
+    for (const joint of joints) {
       if (joint.parent === parent) {
-        joints.push(joint);
+        childJoints.push(joint);
       }
     }
-    return joints
+    return childJoints
+  }
+
+  /** create XML-string from URDF-description */
+  getURDFXML(): string {
+    const xmldef = '<?xml version="1.0" ?>\n';
+    return this.xmlRobotNode ? xmldef + this.xmlRobotNode.outerHTML : '';
   }
 }

@@ -5,8 +5,18 @@
   import type monaco from 'monaco-editor';
   import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 
-  import TopAppBar, { Row, Title } from '@smui/top-app-bar';
+  import TopAppBar, { Row, Title, Section } from '@smui/top-app-bar';
   import Drawer, { AppContent, Content } from '@smui/drawer';
+  import IconButton from '@smui/icon-button';
+  import Fab, { Icon } from '@smui/fab';
+  import Menu from '@smui/menu';
+  import List, {
+    Item,
+    Separator,
+    Text,
+    PrimaryText,
+    Graphic,
+  } from '@smui/list';
 
   import { Canvas, T } from '@threlte/core';
   import { OrbitControls } from '@threlte/extras';
@@ -18,14 +28,12 @@
   import UrdfParser from '../UrdfParser';
   import type { IUrdfRobot } from '../models/IUrdfRobot';
   import TreeRobot from '../components/TreeRobot.svelte';
-  import Section from '@smui/top-app-bar/src/Section.svelte';
 
   let prefix = $page.url.href;
 
   const filename = '/turtlebot3_description/turtlebot3_burger.xml';
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
   let robot: IUrdfRobot;
-  let code = '';
 
   let innerHeight = 0;
   let innerWidth = 0;
@@ -35,9 +43,11 @@
   let divEl: HTMLDivElement;
   let editor: monaco.editor.IStandaloneCodeEditor;
 
+  let menu: Menu;
+
   onMount(async () => {
     let promise = parser.load();
-    code = await promise;
+    let code = await promise;
     robot = parser.fromString(code);
 
     // @ts-ignore
@@ -49,7 +59,7 @@
 
     Monaco = await import('monaco-editor');
     editor = Monaco.editor.create(divEl, {
-      value: code,
+      value: parser.getURDFXML(),
       language: 'xml',
       theme: 'vs-dark',
       minimap: { enabled: false },
@@ -82,7 +92,16 @@
     >
       <Row>
         <Section>
-          <Title>Flex Static</Title>
+          <Title>URDF Editor</Title>
+        </Section>
+
+        <Section align="end" toolbar>
+          <IconButton class="material-icons" aria-label="Download"
+            >settings</IconButton
+          >
+          <IconButton class="material-icons" aria-label="Download"
+            >file_download</IconButton
+          >
         </Section>
       </Row>
     </TopAppBar>
@@ -97,8 +116,7 @@
           {/if}
         </Content>
       </Drawer>
-
-      <div bind:this={divEl} class="me" />
+      <div style="position: relative; left: 0;">
       <Canvas shadows size={{height: innerHeight-50, width: (innerWidth/2)-(drawerWidth)-2}}
         rendererParameters={{logarithmicDepthBuffer: true}}>
 
@@ -118,6 +136,43 @@
           <UrdfThree parser={parser} />
         {/if}
       </Canvas>
+      </div>
+
+      <div style="position: absolute; width: 50%; float: right; top: 4px; right: 60px;">
+        <div class="flexy">
+          <Fab on:click={() => menu.setOpen(true)}>
+            <Icon class="material-icons">add</Icon>
+          </Fab>
+        </div>
+        <Menu
+          style={'max-height: 200px'}
+          anchorCorner={"BOTTOM_LEFT"}
+          bind:this={menu}
+        >
+          <List>
+            <Item>
+              <Graphic class="material-icons">square</Graphic>
+              <Text>
+                Box
+              </Text>
+            </Item>
+            <Item>
+              <Graphic class="material-icons">circle</Graphic>
+              <Text>
+                Cylinder
+              </Text>
+            </Item>
+            <Separator />
+            <Item>
+              <Graphic class="material-icons">settings_suggest</Graphic>
+              <Text>
+                Mesh
+              </Text>
+            </Item>
+          </List>
+        </Menu>
+      </div>
+      <div bind:this={divEl} class="me" />
     </div>
 
   </main>
@@ -143,6 +198,7 @@
     position: relative;
     flex-grow: 1;
   }
+
 
   .main-content {
     overflow: hidden;

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
-import type { IUrdfVisual } from '../models/IUrdfVisual';
+import type { IUrdfLink } from '../models/IUrdfLink';
 
-const { subscribe, set } = writable<undefined | IUrdfVisual>(undefined);
+const { subscribe, set } = writable<undefined | IUrdfLink>(undefined);
 
 const select = set;
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  // Three.js visualisation of a URDF.
 	import { T } from '@threlte/core'
   import { Quaternion, Vector3 } from 'three';
   import type UrdfParser from '../UrdfParser';

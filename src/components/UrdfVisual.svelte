@@ -7,8 +7,11 @@
   import { T } from "@threlte/core";
   import { interactivity } from "@threlte/extras";
   import selection from "../store/selection";
+    import type { IUrdfLink } from "../models/IUrdfLink";
 
-  export let visual:IUrdfVisual
+  export let visual:IUrdfVisual;
+  export let link: IUrdfLink;
+
   const position = visual.origin_xyz || [0, 0, 0];
   const rotation = visual.origin_rpy || [0, 0, 0];
   const color = numberArrayToColor(visual.color_rgba);
@@ -23,7 +26,7 @@
   }
 
   const onClick = () => {
-    selection.select(visual)
+    selection.select(link)
   }
 
   interactivity();  

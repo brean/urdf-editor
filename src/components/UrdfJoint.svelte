@@ -15,12 +15,12 @@
 {@html `<!-- Joint ${joint.name} -->`}
 <T.Group rotation={joint.origin_rpy} position={joint.origin_xyz}>
   {#each joint.child.visual as visual}
-    {#if $selection == visual}
+    {#if $selection == joint.child}
     <TransformControls>
-      <UrdfVisual visual={visual} />
+      <UrdfVisual visual={visual} link={joint.child} />
     </TransformControls>
     {:else}
-    <UrdfVisual visual={visual} />
+    <UrdfVisual visual={visual} link={joint.child} />
     {/if}
     {#each parser.getChildJoints(joint.child) as child}
       <svelte:self joint={child} parser={parser} />

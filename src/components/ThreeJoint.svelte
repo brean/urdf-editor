@@ -2,6 +2,7 @@
   import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
   import type { IUrdfJoint } from '../models/IUrdfJoint';
   import type UrdfParser from '../UrdfParser';
+    import selection from '../store/selection';
 
   export let parser: UrdfParser;
   export let joint: IUrdfJoint;
@@ -11,10 +12,13 @@
 
   const toggle = () => {
 		expanded = !expanded;
+    // TODO: only one action?
+    selection.select(joint.child);
 	}
+
 </script>
 
-<Item on:SMUI:action={toggle}>
+<Item on:SMUI:action={toggle} activated={$selection == joint.child}>
   {#if childJoints.length > 0}
   <Graphic class="material-icons">{expanded ? 'folder_open' : 'folder'}</Graphic>
   {:else}
