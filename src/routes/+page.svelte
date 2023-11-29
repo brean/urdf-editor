@@ -28,12 +28,12 @@
   import UrdfParser from '../UrdfParser';
   import type { IUrdfRobot } from '../models/IUrdfRobot';
   import TreeRobot from '../components/TreeRobot.svelte';
+  import robot_urdf from '../store/robot_urdf';
 
   let prefix = $page.url.href;
 
   const filename = '/turtlebot3_description/turtlebot3_burger.xml';
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
-  let robot: IUrdfRobot;
 
   let innerHeight = 0;
   let innerWidth = 0;
@@ -48,7 +48,7 @@
   onMount(async () => {
     let promise = parser.load();
     let code = await promise;
-    robot = parser.fromString(code);
+    robot_urdf.set(parser.fromString(code));
 
     // @ts-ignore
     self.MonacoEnvironment = {
@@ -92,16 +92,23 @@
     >
       <Row>
         <Section>
-          <Title>URDF Editor</Title>
+          {#if $robot_urdf}
+          <Title>{$robot_urdf.name}</Title>
+          {:else}
+          <Title>Unnamed Robot</Title>
+          {/if}
         </Section>
 
         <Section align="end" toolbar>
-          <IconButton class="material-icons" aria-label="Download"
-            >settings</IconButton
-          >
-          <IconButton class="material-icons" aria-label="Download"
-            >file_download</IconButton
-          >
+          <IconButton class="material-icons" aria-label="Download">
+            add_circle
+          </IconButton>
+          <IconButton class="material-icons" aria-label="Download">
+            settings
+          </IconButton>
+          <IconButton class="material-icons" aria-label="Download">
+            file_download
+          </IconButton>
         </Section>
       </Row>
     </TopAppBar>
@@ -110,7 +117,7 @@
       <Drawer>
         <Content>
           <!-- TODO: load urdf -->
-          {#if robot}
+          {#if $robot_urdf}
             {@html `<!-- ${filename} -->`}  
             <TreeRobot parser={parser} />
           {/if}
@@ -132,7 +139,7 @@
         <ThreeStage preset_name="soft" />
         <Grid />
 
-        {#if robot}
+        {#if $robot_urdf}
           <UrdfThree parser={parser} />
         {/if}
       </Canvas>

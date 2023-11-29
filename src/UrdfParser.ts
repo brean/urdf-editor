@@ -57,7 +57,7 @@ export default class UrdfParser {
     if (rootNodeName !== 'robot') {
       throw new Error(`Invalid URDF: no root node ${rootNodeName}`)
     }
-    this.name = robotNode.getAttribute("name") as string
+    this.robot.name = robotNode.getAttribute("name") as string
     // fill colors object
     this.parseColorsFromRobot(robotNode);
     this.parseLinks(robotNode);
