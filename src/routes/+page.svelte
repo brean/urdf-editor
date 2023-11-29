@@ -14,7 +14,6 @@
     Item,
     Separator,
     Text,
-    PrimaryText,
     Graphic,
   } from '@smui/list';
 
@@ -100,12 +99,19 @@
         </Section>
 
         <Section align="end" toolbar>
+          <!-- TODO: show menu to switch between transform control modes ('translate' | 'rotate' | 'scale';), open_with, cached,zoom_out_map  -->
           <IconButton class="material-icons" aria-label="Download">
-            add_circle
+            open_with
           </IconButton>
+          <!-- TODO: open and add new URDF -->
+          <IconButton class="material-icons" aria-label="Download">
+            folder
+          </IconButton>
+          <!-- TODO: settings dialog, configure mesh path -->
           <IconButton class="material-icons" aria-label="Download">
             settings
           </IconButton>
+          <!-- TODO: download URDF -->
           <IconButton class="material-icons" aria-label="Download">
             file_download
           </IconButton>
@@ -116,7 +122,6 @@
     <div class="drawer-container">
       <Drawer>
         <Content>
-          <!-- TODO: load urdf -->
           {#if $robot_urdf}
             {@html `<!-- ${filename} -->`}  
             <TreeRobot parser={parser} />
@@ -214,4 +219,3 @@
     box-sizing: border-box;
   }
 </style>
-<!-- TODO: drawer -->

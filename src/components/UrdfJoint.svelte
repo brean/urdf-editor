@@ -16,7 +16,7 @@
 <T.Group rotation={joint.origin_rpy} position={joint.origin_xyz}>
   {#each joint.child.visual as visual}
     {#if $selection == joint.child}
-    <TransformControls>
+    <TransformControls mode="translate">
       <UrdfVisual visual={visual} link={joint.child} />
     </TransformControls>
     {:else}
