@@ -27,7 +27,9 @@
   import UrdfParser from '../UrdfParser';
   import type { IUrdfRobot } from '../models/IUrdfRobot';
   import TreeRobot from '../components/TreeRobot.svelte';
+
   import robot_urdf from '../store/robot_urdf';
+  import transform_tool from '../store/transform_tool';
 
   let prefix = $page.url.href;
 
@@ -42,7 +44,9 @@
   let divEl: HTMLDivElement;
   let editor: monaco.editor.IStandaloneCodeEditor;
 
-  let menu: Menu;
+  let addNewMenu: Menu;
+  let selectModeMenu: Menu;
+  let selectModeBtn: IconButton;
 
   onMount(async () => {
     let promise = parser.load();
@@ -99,10 +103,39 @@
         </Section>
 
         <Section align="end" toolbar>
-          <!-- TODO: show menu to switch between transform control modes ('translate' | 'rotate' | 'scale';), open_with, cached,zoom_out_map  -->
-          <IconButton class="material-icons" aria-label="Download">
+          <!-- TODO: switch between transform control modes  -->
+          <IconButton class="material-icons" aria-label="Select Edit Mode"
+           on:click={() => selectModeMenu.setOpen(true)}
+           bind:this={selectModeBtn}>
             open_with
           </IconButton>
+          <Menu
+          anchorCorner="BOTTOM_LEFT"
+          style={'max-height: 200px; right: 0px; top: 54px; position: relative;'}
+          bind:this={selectModeMenu}
+        >
+          <List>
+            <Item on:SMUI:action={() => transform_tool.set('translate')}>
+              <Graphic class="material-icons">open_with</Graphic>
+              <Text>
+                translate
+              </Text>
+            </Item>
+            <Item on:SMUI:action={() => transform_tool.set('rotate')}>
+              <Graphic class="material-icons">cached</Graphic>
+              <Text>
+                rotate
+              </Text>
+            </Item>
+            <Item on:SMUI:action={() => transform_tool.set('scale')}>
+              <Graphic class="material-icons">zoom_out_map</Graphic>
+              <Text>
+                scale
+              </Text>
+            </Item>
+          </List>
+        </Menu>
+
           <!-- TODO: open and add new URDF -->
           <IconButton class="material-icons" aria-label="Download">
             folder
@@ -152,14 +185,14 @@
 
       <div style="position: absolute; width: 50%; float: right; top: 4px; right: 60px;">
         <div class="flexy">
-          <Fab on:click={() => menu.setOpen(true)}>
+          <Fab on:click={() => addNewMenu.setOpen(true)}>
             <Icon class="material-icons">add</Icon>
           </Fab>
         </div>
         <Menu
           style={'max-height: 200px'}
           anchorCorner={"BOTTOM_LEFT"}
-          bind:this={menu}
+          bind:this={addNewMenu}
         >
           <List>
             <Item>
