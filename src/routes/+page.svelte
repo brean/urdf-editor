@@ -24,7 +24,7 @@
   
   import Grid from '../components/Grid.svelte';
 
-  import UrdfParser from '../UrdfParser';
+  import { UrdfParser } from '../UrdfParser';
   import type { IUrdfRobot } from '../models/IUrdfRobot';
   import TreeRobot from '../components/TreeRobot.svelte';
 
@@ -70,10 +70,10 @@
       scrollBeyondLastLine: false
     });
 
-    // editor.getModel()?.onDidChangeContent(() => {
-    //   let txt = editor.getValue();
-    //   robot = parser.fromString(txt);
-    // });
+    editor.getModel()?.onDidChangeContent(() => {
+      let txt = editor.getValue();
+      robot_urdf.set(parser.fromString(txt));
+    });
 
     return () => {
       editor.dispose();

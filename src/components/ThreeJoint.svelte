@@ -1,14 +1,15 @@
 <script lang="ts">
   import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
+  import robot_urdf from '../store/robot_urdf';
   import type { IUrdfJoint } from '../models/IUrdfJoint';
-  import type UrdfParser from '../UrdfParser';
-    import selection from '../store/selection';
+  
+  import selection from '../store/selection';
+  import { getChildJoints } from '../UrdfParser';
 
-  export let parser: UrdfParser;
   export let joint: IUrdfJoint;
 
   export let expanded = true;
-  const childJoints = parser.getChildJoints(joint.child);
+  let childJoints: IUrdfJoint[] = [];
 
   const toggle = () => {
 		expanded = !expanded;
@@ -16,6 +17,11 @@
     selection.select(joint.child);
 	}
 
+  $: {
+    if ($robot_urdf) {
+      childJoints = getChildJoints($robot_urdf, joint.child);
+    }
+  }
 </script>
 
 <Item on:SMUI:action={toggle} activated={$selection == joint.child}>
@@ -37,7 +43,7 @@
   <Item wrapper>
     <List class="sub-list">
       {#each childJoints as childJoint}
-        <svelte:self joint={childJoint} parser={parser} />
+        <svelte:self joint={childJoint} />
       {/each}
     </List>
   </Item>

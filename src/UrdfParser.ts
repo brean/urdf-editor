@@ -11,13 +11,48 @@ import type { IUrdfCylinder } from "./models/IUrdfCylinder";
 import type { IUrdfBox } from "./models/IUrdfBox";
 import type { IUrdfRobot } from "./models/IUrdfRobot";
 
+export function getRootJoints(robot:IUrdfRobot): IUrdfJoint[] {
+  // get the root joint(s)
+  const joints = robot.joints;
+  const rootJoints: IUrdfJoint[] = [];
+  for (const joint of joints) {
+    let isRoot = true;
+    // go through all joints again and check if they have a child that
+    // match this joint, if not the current joint does not have a parent
+    // and is a root joint.
+    for (const parentJoint of joints) {
+      if (joint.parent.name === parentJoint.child.name) {
+        isRoot = false
+        break
+      }
+    }
+    if (isRoot) {
+      // add current root to root joint-list
+      rootJoints.push(joint);
+    }
+  }
+  return rootJoints
+}
+
+export function getChildJoints(
+  robot: IUrdfRobot, parent: IUrdfLink): IUrdfJoint[] {
+  const childJoints: IUrdfJoint[] = []
+  const joints = robot.joints;
+  if (!joints) {
+    return []
+  }
+  for (const joint of joints) {
+    if (joint.parent === parent) {
+      childJoints.push(joint);
+    }
+  }
+  return childJoints
+}
+
 // render the 3D-model from this.
-export default class UrdfParser {
+export class UrdfParser {
   // filename of xml to load
   filename: string;
-
-  // robot name
-  name?: string;
 
   // loaded colors from root materials
   colors: { [name: string]: number[] } = {}
@@ -45,7 +80,16 @@ export default class UrdfParser {
     })
   }
 
+  reset() {
+    this.robot = {
+      name: '',
+      links: {},
+      joints: []
+    }
+  }
+
   fromString(data: string): IUrdfRobot {
+    this.reset();
     let domElem = new window.DOMParser().parseFromString(data, "text/xml")
     this.xmlRobotNode = domElem.documentElement;
     return this.parseRobotXMLNode(domElem.documentElement)
@@ -277,43 +321,6 @@ export default class UrdfParser {
         joints.push(joint);
       }
     }
-  }
-
-  getRootJoints(): IUrdfJoint[] {
-    // get the root joint(s)
-    const joints = this.robot.joints;
-    const rootJoints: IUrdfJoint[] = [];
-    for (const joint of joints) {
-      let isRoot = true;
-      // go through all joints again and check if they have a child that
-      // match this joint, if not the current joint does not have a parent
-      // and is a root joint.
-      for (const parentJoint of joints) {
-        if (joint.parent.name === parentJoint.child.name) {
-          isRoot = false
-          break
-        }
-      }
-      if (isRoot) {
-        // add current root to root joint-list
-        rootJoints.push(joint);
-      }
-    }
-    return rootJoints
-  }
-
-  getChildJoints(parent: IUrdfLink): IUrdfJoint[] {
-    const childJoints: IUrdfJoint[] = []
-    const joints = this.robot.joints;
-    if (!joints) {
-      return []
-    }
-    for (const joint of joints) {
-      if (joint.parent === parent) {
-        childJoints.push(joint);
-      }
-    }
-    return childJoints
   }
 
   /** create XML-string from URDF-description */

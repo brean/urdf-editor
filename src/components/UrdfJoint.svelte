@@ -3,16 +3,15 @@
 
 	import { T } from '@threlte/core'
   import type { IUrdfJoint } from '../models/IUrdfJoint';
-  import type UrdfParser from '../UrdfParser';
   import UrdfVisual from './UrdfVisual.svelte';
   import { TransformControls } from '@threlte/extras';
-
+  import robot_urdf from '../store/robot_urdf';
   import selection from '../store/selection';
   import transform_tool from '../store/transform_tool';
+  import { getChildJoints } from '../UrdfParser';
 
 
   export let joint: IUrdfJoint;
-  export let parser: UrdfParser;
 </script>
 
 {@html `<!-- Joint ${joint.name} -->`}
@@ -25,8 +24,8 @@
     {:else}
     <UrdfVisual visual={visual} link={joint.child} />
     {/if}
-    {#each parser.getChildJoints(joint.child) as child}
-      <svelte:self joint={child} parser={parser} />
+    {#each getChildJoints($robot_urdf, joint.child) as child}
+      <svelte:self joint={child} />
     {/each}
   {/each}
 </T.Group>
