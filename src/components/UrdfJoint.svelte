@@ -15,17 +15,19 @@
 </script>
 
 {@html `<!-- Joint ${joint.name} -->`}
-<T.Group rotation={joint.origin_rpy} position={joint.origin_xyz}>
-  {#each joint.child.visual as visual}
-    {#if $selection == joint.child}
-    <TransformControls mode={$transform_tool}>
+{#if $robot_urdf}
+  <T.Group rotation={joint.origin_rpy} position={joint.origin_xyz}>
+    {#each joint.child.visual as visual}
+      {#if $selection == joint.child}
+      <TransformControls mode={$transform_tool}>
+        <UrdfVisual visual={visual} link={joint.child} />
+      </TransformControls>
+      {:else}
       <UrdfVisual visual={visual} link={joint.child} />
-    </TransformControls>
-    {:else}
-    <UrdfVisual visual={visual} link={joint.child} />
-    {/if}
-    {#each getChildJoints($robot_urdf, joint.child) as child}
-      <svelte:self joint={child} />
+      {/if}
+      {#each getChildJoints($robot_urdf, joint.child) as child}
+        <svelte:self joint={child} />
+      {/each}
     {/each}
-  {/each}
-</T.Group>
+  </T.Group>
+{/if}
