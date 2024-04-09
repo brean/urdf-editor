@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="turtlebot3_waffle">
-  <!-- Init colour -->  
+  <!-- Init colour -->
   <material name="black">
       <color rgba="0.0 0.0 0.0 1.0"/>
   </material>
@@ -25,11 +25,11 @@
   </material>
 
   <material name="orange">
-    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+    <color rgba="1.0 0.423 0.039 1.0" />
   </material>
 
   <material name="brown">
-    <color rgba="${222/255} ${207/255} ${195/255} 1.0"/>
+    <color rgba="1.0 0.812 0.7647 1.0" />
   </material>
 
   <material name="red">
