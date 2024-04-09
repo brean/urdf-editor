@@ -13,7 +13,7 @@ const config = {
 			fallback: 'index.html'
 		}),
 		paths: {
-			base: '/svelte-3d-urdf',
+			base: '/urdf-editor',
 			relative: true
 		}
 		
