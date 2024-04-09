@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { IUrdfRobot } from '../models/IUrdfRobot';
+import type { IUrdfRobot } from '$lib/models/IUrdfRobot';
 
 const { subscribe, set, update } = writable<undefined | IUrdfRobot>(undefined);
 

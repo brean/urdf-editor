@@ -1,15 +1,15 @@
 <script lang="ts">
   import type { IUrdfMesh } from "../models/IUrdfMesh";
-  import type { IUrdfVisual } from "../models/IUrdfVisual";
-  import { numberArrayToColor } from "../helper";
+  import type { IUrdfVisual } from "$lib/models/IUrdfVisual";
+  import { numberArrayToColor } from "$lib/helper";
   import DAE from "./DAE.svelte";
   import STL from "./STL.svelte";
   import { T } from "@threlte/core";
   import { interactivity } from "@threlte/extras";
-  import selection from "../store/selection";
-    import type { IUrdfLink } from "../models/IUrdfLink";
-  import type { IUrdfCylinder } from "../models/IUrdfCylinder";
-  import type { IUrdfBox } from "../models/IUrdfBox";
+  import selection from "$lib/store/selection";
+    import type { IUrdfLink } from "$lib/models/IUrdfLink";
+  import type { IUrdfCylinder } from "$lib/models/IUrdfCylinder";
+  import type { IUrdfBox } from "$lib/models/IUrdfBox";
 
   export let visual:IUrdfVisual;
   export let link: IUrdfLink;

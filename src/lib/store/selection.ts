@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { IUrdfLink } from '../models/IUrdfLink';
+import type { IUrdfLink } from '$lib/models/IUrdfLink';
 
 const { subscribe, set } = writable<undefined | IUrdfLink>(undefined);
 

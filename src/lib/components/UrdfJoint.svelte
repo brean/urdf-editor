@@ -3,10 +3,10 @@
   import type { IUrdfJoint } from "../models/IUrdfJoint";
   import UrdfVisual from "./UrdfVisual.svelte";
   import { TransformControls } from "@threlte/extras";
-  import robot_urdf from "../store/robot_urdf";
-  import selection from "../store/selection";
-  import transform_tool from "../store/transform_tool";
-  import { getChildJoints } from "../UrdfParser";
+  import robot_urdf from "$lib/store/robot_urdf";
+  import selection from "$lib/store/selection";
+  import transform_tool from "$lib/store/transform_tool";
+  import { getChildJoints } from "$lib/UrdfParser";
 
   export let joint: IUrdfJoint;
 </script>

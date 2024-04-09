@@ -1,8 +1,8 @@
 <script lang="ts">
   import List, { Item, Text, Graphic } from '@smui/list';
   import ThreeJoint from './ThreeJoint.svelte';
-  import robot_urdf from '../store/robot_urdf';
-  import { getRootJoints } from '../UrdfParser';
+  import robot_urdf from '$lib/store/robot_urdf';
+  import { getRootJoints } from '$lib/UrdfParser';
 
 
   export let expanded = true;

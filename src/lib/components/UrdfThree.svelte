@@ -2,9 +2,9 @@
   // Three.js visualisation of a URDF.
 	import { T } from '@threlte/core'
   import { Quaternion, Vector3 } from 'three';
-  import robot_urdf from '../store/robot_urdf';
+  import robot_urdf from '$lib/store/robot_urdf';
   import UrdfJoint from './UrdfJoint.svelte';
-  import { getRootJoints } from '../UrdfParser';
+  import { getRootJoints } from '$lib/UrdfParser';
 
   export let position: number[] = [0, 0, 0];
   export let quaternion: number[] | undefined = undefined;

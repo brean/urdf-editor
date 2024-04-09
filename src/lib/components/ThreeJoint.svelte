@@ -1,10 +1,10 @@
 <script lang="ts">
   import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
-  import robot_urdf from '../store/robot_urdf';
-  import type { IUrdfJoint } from '../models/IUrdfJoint';
+  import robot_urdf from '$lib/store/robot_urdf';
+  import type { IUrdfJoint } from '$lib/models/IUrdfJoint';
   
-  import selection from '../store/selection';
-  import { getChildJoints } from '../UrdfParser';
+  import selection from '$lib/store/selection';
+  import { getChildJoints } from '$lib/UrdfParser';
 
   export let joint: IUrdfJoint;
 
