@@ -31,9 +31,10 @@
   import robot_urdf from '$lib/store/robot_urdf';
   import transform_tool from '$lib/store/transform_tool';
 
-  let prefix = $page.url.href + '/..';
+  let prefix = $page.url.href + '/../..';
+  const robot_name = $page.params.robot_name;
 
-  const filename = 'turtlebot3_description/turtlebot3_burger.xml';
+  const filename = `turtlebot3_description/${robot_name}.xml`;
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
 
   let innerHeight = 0;
@@ -157,7 +158,7 @@
         <Content>
           {#if $robot_urdf}
             {@html `<!-- ${filename} -->`}  
-            <TreeRobot parser={parser} />
+            <TreeRobot />
           {/if}
         </Content>
       </Drawer>
@@ -178,7 +179,7 @@
         <Grid />
 
         {#if $robot_urdf}
-          <UrdfThree parser={parser} />
+          <UrdfThree />
         {/if}
       </Canvas>
       </div>
