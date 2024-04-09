@@ -27,7 +27,7 @@
 		"@sveltejs/kit": "^2.5.5",
 		"@threlte/core": "^7.2.1",
 		"@threlte/extras": "^8.10.3",
-		"@types/three": "^0.162.0",
+		"@types/three": "^0.163.0",
 		"monaco-editor": "^0.47.0",
 		"smui-theme": "^7.0.0-beta.18",
 		"svelte": "^4.2.7",
