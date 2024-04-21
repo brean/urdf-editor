@@ -1,7 +1,7 @@
 <script lang="ts">
   import { T, useLoader, useThrelte } from '@threlte/core';
   import { createEventDispatcher } from 'svelte'
-  import { BufferGeometry, Color } from 'three';
+  import { Color } from 'three';
   import { ColladaLoader, type Collada } from 'three/examples/jsm/loaders/ColladaLoader';
 
   export let filename: string;

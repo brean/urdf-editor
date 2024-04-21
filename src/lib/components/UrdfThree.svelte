@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Three.js visualisation of a URDF.
+  // Three.js visualisation of a URDF robot.
 	import { T } from '@threlte/core'
   import { Quaternion, Vector3 } from 'three';
   import robot_urdf from '$lib/store/robot_urdf';
@@ -8,6 +8,7 @@
 
   export let position: number[] = [0, 0, 0];
   export let quaternion: number[] | undefined = undefined;
+  export let selectable: boolean = false;
   
   // the axis in Three are different from urdf
   if (!quaternion) {
@@ -22,7 +23,8 @@
 <T.Group position={position} quaternion={quaternion}>
   {#each getRootJoints($robot_urdf) as joint}
     <UrdfJoint 
-      joint={joint}
+      {joint}
+      {selectable}
     />
   {/each}
 </T.Group>

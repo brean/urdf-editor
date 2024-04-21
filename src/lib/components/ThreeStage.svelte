@@ -36,7 +36,7 @@
 
 </script>
 
-<T.AmbientLight intensity={intensity / 3} />
+<T.AmbientLight intensity={intensity * .75} />
 <T.SpotLight
   penumbra={1}
   position={[

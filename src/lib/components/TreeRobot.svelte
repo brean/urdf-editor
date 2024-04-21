@@ -6,6 +6,7 @@
 
 
   export let expanded = true;
+  
 
   const toggle = () => {
 		expanded = !expanded;

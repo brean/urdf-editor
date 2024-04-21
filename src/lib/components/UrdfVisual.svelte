@@ -1,3 +1,4 @@
+<!-- a visual URDF element -->
 <script lang="ts">
   import type { IUrdfMesh } from "../models/IUrdfMesh";
   import type { IUrdfVisual } from "$lib/models/IUrdfVisual";

@@ -179,7 +179,7 @@
         <Grid />
 
         {#if $robot_urdf}
-          <UrdfThree />
+          <UrdfThree selectable={true} />
         {/if}
       </Canvas>
       </div>

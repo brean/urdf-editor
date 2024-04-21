@@ -9,13 +9,14 @@
   import { getChildJoints } from "$lib/UrdfParser";
 
   export let joint: IUrdfJoint;
+  export let selectable: boolean;
 </script>
 
 {@html `<!-- Joint ${joint.name} -->`}
 {#if $robot_urdf}
   <T.Group rotation={joint.origin_rpy} position={joint.origin_xyz}>
     {#each joint.child.visual as visual}
-      {#if $selection == joint.child}
+      {#if selectable && $selection == joint.child}
         <TransformControls mode={$transform_tool}>
           <UrdfVisual {visual} link={joint.child} />
         </TransformControls>
@@ -23,7 +24,7 @@
         <UrdfVisual {visual} link={joint.child} />
       {/if}
       {#each getChildJoints($robot_urdf, joint.child) as child}
-        <svelte:self joint={child} />
+        <svelte:self joint={child} {selectable} />
       {/each}
     {/each}
   </T.Group>
