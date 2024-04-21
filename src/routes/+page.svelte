@@ -15,7 +15,7 @@
         <Cell>
           <Card>
             <PrimaryAction on:click={() => {
-              goto(robot.name + '/edit')
+              goto(robot.name + '/view')
             }}>
               <Media class="card-media-16x9" aspectRatio="16x9" />
               <Content class="mdc-typography--body2">
@@ -34,7 +34,21 @@
               <ActionIcons>
                 <IconButton
                   class="material-icons"
-                  title="Share">delete</IconButton
+                  title="View"
+                  on:click={() => {
+                    goto(robot.name + '/view')
+                  }}>visibility</IconButton
+                >
+                <IconButton
+                  class="material-icons"
+                  title="Edit"
+                  on:click={() => {
+                    goto(robot.name + '/edit')
+                  }}>edit</IconButton
+                >
+                <IconButton
+                  class="material-icons"
+                  title="Delete">delete</IconButton
                 >
               </ActionIcons>
             </Actions>

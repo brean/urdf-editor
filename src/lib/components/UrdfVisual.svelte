@@ -48,25 +48,25 @@
     <STL
       onclick={onClick}
       filename={mesh.filename}
-      position={position}
-      rotation={rotation}
-      color={color}
-      scale={scale} />
+      {position}
+      {rotation}
+      {color}
+      {scale} />
   {:else if mesh.type === 'dae'}
     <DAE
       onclick={onClick}
       filename={mesh.filename}
-      position={position}
-      rotation={rotation}
-      color={color}
-      scale={scale} />
+      {position}
+      {rotation}
+      {color}
+      {scale} />
   {/if}
-{:else}
+{:else if visual && visual.type}
 	<T.Mesh castShadow receiveShadow
       scale={scale}
       on:click={onClick}
-      position={position}
-      rotation={rotation}>
+      {position}
+      {rotation}>
     {#if visual.type === 'cylinder'}
       <!-- cylinder are rotated 90° in Three compared to urdf -->
 		  <T.CylinderGeometry 

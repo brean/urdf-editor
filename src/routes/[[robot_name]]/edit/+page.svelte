@@ -73,7 +73,7 @@
 
     editor.getModel()?.onDidChangeContent(() => {
       let txt = editor.getValue();
-      robot_urdf.set(parser.fromString(txt));
+      $robot_urdf = parser.fromString(txt);
     });
 
     return () => {

@@ -8,17 +8,9 @@
   // use pink as fallback color
   export let color: Color = new Color('pink');
   export let scale: number[] = [1, 1, 1];
-  export let rotation: number[] = [1, 1, 1];
-  export let position: number[] = [1, 1, 1];
+  export let rotation: number[] = [0, 0, 0];
+  export let position: number[] = [0, 0, 0];
   export let onclick: () => void;
-
-  const dispatch = createEventDispatcher<{
-    load: BufferGeometry
-    unload: undefined
-    error: string
-  }>();
-
-  const { invalidate } = useThrelte();
 
   const loader = useLoader(STLLoader);
 
