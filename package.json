@@ -15,12 +15,12 @@
 		"smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark"
 	},
 	"dependencies": {
-		"@smui/card": "^8.0.0-beta.3",
-		"@smui/layout-grid": "^8.0.0-beta.3",
 		"@smui/button": "^8.0.0-beta.3",
+		"@smui/card": "^8.0.0-beta.3",
 		"@smui/drawer": "^8.0.0-beta.3",
 		"@smui/fab": "^8.0.0-beta.3",
 		"@smui/icon-button": "^8.0.0-beta.3",
+		"@smui/layout-grid": "^8.0.0-beta.3",
 		"@smui/list": "^8.0.0-beta.3",
 		"@smui/menu": "^8.0.0-beta.3",
 		"@smui/menu-surface": "^8.0.0-beta.3",
@@ -39,6 +39,7 @@
 		"svelte-sequential-preprocessor": "^2.0.2",
 		"three": "^0.173.0",
 		"typescript": "^5.6.3",
+		"urdf-viewer": "^0.0.3",
 		"vite": "^6.0.0"
 	},
 	"type": "module"
