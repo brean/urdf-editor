@@ -1,30 +1,23 @@
 <script lang="ts">
-  import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
+  import List, { Item, PrimaryText, SecondaryText, Text } from "@smui/list";
+  import { type IUrdfJoint, getChildJoints, urdf_viewer_state } from "urdf-viewer";
+  import SmuiJoint from './SmuiJoint.svelte'
 
-  export let joint: IUrdfJoint;
+  interface Props {
+    joint: IUrdfJoint
+  }
+  
+  let { joint = $bindable() }: Props = $props();
+  let childJoints: IUrdfJoint[] = $state([]);
 
-  export let expanded = true;
-  let childJoints: IUrdfJoint[] = [];
-
-  const toggle = () => {
-		expanded = !expanded;
-    // TODO: only one action?
-    // selection.select(joint.child);
-	}
-
-  $effect({
-    if ($robot_urdf) {
-      childJoints = getChildJoints($robot_urdf, joint.child);
+  $effect(() => {
+    if (urdf_viewer_state.robot) {
+      childJoints = getChildJoints(urdf_viewer_state.robot, joint?.child)
     }
   });
 </script>
 
-<Item onSMUIAction={toggle} ><!-- todo: activated={$selection == joint.child} -->
-  {#if childJoints.length > 0}
-  <Graphic class="material-icons">{expanded ? 'folder_open' : 'folder'}</Graphic>
-  {:else}
-  <Graphic class="material-icons">circle</Graphic>
-  {/if}
+<Item>
   <Text class="bigtext">
     <!-- Joint -->
     <PrimaryText>{joint.name}</PrimaryText>
@@ -34,11 +27,11 @@
 </Item>
 
 
-{#if childJoints.length > 0 && expanded}
+{#if childJoints.length > 0}
   <Item wrapper>
     <List class="sub-list">
       {#each childJoints as childJoint}
-        <svelte:self joint={childJoint} />
+        <SmuiJoint joint={childJoint} />
       {/each}
     </List>
   </Item>

@@ -1,39 +1,34 @@
 <script lang="ts">
   import List, { Item, Text, Graphic } from '@smui/list';
-  import ThreeJoint from './ThreeJoint.svelte';
-  import robot_urdf from '$lib/store/robot_urdf';
-  import { getRootJoints } from '$lib/UrdfParser';
+  import type { IUrdfRobot } from 'urdf-viewer';
+  import { getRootJoints } from 'urdf-viewer';
+  import SmuiJoint from './SmuiJoint.svelte';
 
-
-  export let expanded = true;
+  interface Props {
+    robot: IUrdfRobot | undefined
+  }
   
-
-  const toggle = () => {
-		expanded = !expanded;
-	}
+  let { robot = $bindable(undefined) }: Props = $props();
+  
 </script>
-
-{#if $robot_urdf}
-<List>
-  <Item on:SMUI:action={toggle}>
-    <Graphic class="material-icons">{expanded ? 'folder_open' : 'folder'}</Graphic>
-    <Text>{$robot_urdf?.name}</Text>
+{#if robot}
+<List class="robot-list">
+  <Item>
+    <Graphic>🤖</Graphic>
+    <Text>{robot.name}</Text>
   </Item>
 
-  {#if expanded}
-    <Item wrapper>
-      <List class="sub-list">
-      {#each getRootJoints($robot_urdf) as joint}
-        <ThreeJoint joint={joint} />
-      {/each}
-      </List>
-    </Item>
-  {/if}
+  {#each getRootJoints(robot) as joint}
+  <SmuiJoint {joint} />
+  {/each}
 </List>
+{/if}
 
 <style>
+  * :global(.robot-list) {
+    max-width: 250px;
+  }
   * :global(.sub-list) {
     padding-left: 10px;
   }
 </style>
-{/if}

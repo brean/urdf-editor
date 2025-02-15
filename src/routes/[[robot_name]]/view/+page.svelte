@@ -6,7 +6,6 @@
   import { Canvas, T } from '@threlte/core';
   import { OrbitControls } from '@threlte/extras';
 
-  import { AppContent } from '@smui/drawer';
   import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree } from 'urdf-viewer';
   import { WebGLRenderer } from 'three';
 
@@ -29,7 +28,7 @@
   bind:innerHeight
   bind:innerWidth />
 <main class="main-content">
-  <div style:width={innerWidth - 250 + 'px'} style:height={innerHeight + 'px'}>
+  <div style:width={innerWidth + 'px'} style:height={innerHeight + 'px'}>
     <Canvas
     createRenderer={(canvas) => {
       return new WebGLRenderer({
