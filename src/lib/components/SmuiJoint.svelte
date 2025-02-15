@@ -1,10 +1,5 @@
 <script lang="ts">
   import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
-  import robot_urdf from '$lib/store/robot_urdf';
-  import type { IUrdfJoint } from '$lib/models/IUrdfJoint';
-  
-  import selection from '$lib/store/selection';
-  import { getChildJoints } from '$lib/UrdfParser';
 
   export let joint: IUrdfJoint;
 
@@ -14,17 +9,17 @@
   const toggle = () => {
 		expanded = !expanded;
     // TODO: only one action?
-    selection.select(joint.child);
+    // selection.select(joint.child);
 	}
 
-  $: {
+  $effect({
     if ($robot_urdf) {
       childJoints = getChildJoints($robot_urdf, joint.child);
     }
-  }
+  });
 </script>
 
-<Item on:SMUI:action={toggle} activated={$selection == joint.child}>
+<Item onSMUIAction={toggle} ><!-- todo: activated={$selection == joint.child} -->
   {#if childJoints.length > 0}
   <Graphic class="material-icons">{expanded ? 'folder_open' : 'folder'}</Graphic>
   {:else}

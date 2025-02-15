@@ -1,5 +1,5 @@
 # URDF Editor
-URDF Viewer and Editor for the web
+URDF Editor for the web
 
 
 ## Installation and starting the standalone version

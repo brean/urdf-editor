@@ -1,9 +1,14 @@
 <script lang="ts">
+  // svelte
+  import { goto } from "$app/navigation";
+
+  // SMUI
   import { AppContent } from "@smui/drawer";
   import Card, { ActionIcons, Actions, Content, Media, PrimaryAction } from '@smui/card';
   import IconButton from "@smui/icon-button";
   import LayoutGrid, { Cell } from '@smui/layout-grid';
-  import { goto } from "$app/navigation";
+
+  // data
   import { robots } from "$lib/data/robots";
 
 </script>
@@ -14,7 +19,7 @@
       {#each robots as robot}
         <Cell>
           <Card>
-            <PrimaryAction on:click={() => {
+            <PrimaryAction onclick={() => {
               goto(robot.name + '/view')
             }}>
               <Media class="card-media-16x9" aspectRatio="16x9" />
@@ -35,14 +40,14 @@
                 <IconButton
                   class="material-icons"
                   title="View"
-                  on:click={() => {
+                  onclick={() => {
                     goto(robot.name + '/view')
                   }}>visibility</IconButton
                 >
                 <IconButton
                   class="material-icons"
                   title="Edit"
-                  on:click={() => {
+                  onclick={() => {
                     goto(robot.name + '/edit')
                   }}>edit</IconButton
                 >
