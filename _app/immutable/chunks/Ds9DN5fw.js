@@ -1,0 +1,1 @@
+import{T as c,U as a,V as i,W as s,n as v}from"./C3BHdvmF.js";function u(t,r,e,o=!0){o&&e();for(var n of r)t.addEventListener(n,e);c(()=>{for(var f of r)t.removeEventListener(f,e)})}function l(t){var r=s,e=v;a(null),i(null);try{return t()}finally{a(r),i(e)}}export{u as l,l as w};

@@ -1,1 +1,0 @@
-import{R as c,S as a,T as i,U as s,l as v}from"./Ck1SI5Rn.js";function u(t,r,e,o=!0){o&&e();for(var f of r)t.addEventListener(f,e);c(()=>{for(var n of r)t.removeEventListener(n,e)})}function l(t){var r=s,e=v;a(null),i(null);try{return t()}finally{a(r),i(e)}}export{u as l,l as w};
