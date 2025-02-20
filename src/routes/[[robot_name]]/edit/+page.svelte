@@ -61,7 +61,7 @@
 
     <AppContent class="app-content">
     <div style:width={innerWidth /2 + 'px'} style:height={innerHeight + 'px'} style:left={innerWidth /2 + 'px'} style:position="fixed" style:top={0} style:background-color="gray">
-      <MonacoEditor text={xmlText} />
+      <MonacoEditor bind:text={xmlText} />
     </div>
     <div style:width={innerWidth /2 - 260 + 'px'} style:height={innerHeight + 'px'} style:left={'260px'} style:top={0} style:position="fixed">
       <Canvas
