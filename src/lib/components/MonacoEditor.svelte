@@ -7,7 +7,7 @@
 	let monaco: typeof Monaco;
 	let editorContainer: HTMLElement;
 
-    let { text = $bindable('Hello World') } = $props();
+    let { text = $bindable('') } = $props();
 
 	onMount(async () => {
 		// Remove the next two lines to load the monaco editor from a CDN

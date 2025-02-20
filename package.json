@@ -40,7 +40,7 @@
 		"svelte-sequential-preprocessor": "^2.0.2",
 		"three": "^0.173.0",
 		"typescript": "^5.6.3",
-		"urdf-viewer": "^0.0.6",
+		"urdf-viewer": "^0.1.0",
 		"vite": "^6.0.0"
 	},
 	"type": "module"

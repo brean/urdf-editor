@@ -6,11 +6,11 @@
   import { Canvas, T } from '@threlte/core';
   import { OrbitControls } from '@threlte/extras';
 
-  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree } from 'urdf-viewer';
+  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfLink } from 'urdf-viewer';
   import { WebGLRenderer } from 'three';
 
-  let innerHeight = 0;
-  let innerWidth = 0;
+  let innerHeight = $state(0);
+  let innerWidth = $state(0);
 
   let prefix = page.url.href + '/../..';
   const robot_name = page.params.robot_name;
@@ -23,6 +23,21 @@
     let code = await promise;
     urdf_viewer_state.robot = parser.fromString(code);
   });
+
+  $effect(() => {
+    console.log(urdf_viewer_state.selection)
+  })
+
+  let onselectionchange = (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => {
+    if (prev) {
+      prev.highlight = false;
+      prev = prev
+    }
+    if (next) {
+      next.highlight = true;
+      next = next
+    }
+  }
 </script>
 <svelte:window
   bind:innerHeight
@@ -53,7 +68,7 @@
       <Grid />
 
       {#if urdf_viewer_state.robot}
-        <UrdfThree></UrdfThree>
+        <UrdfThree {onselectionchange} />
       {/if}
     </Canvas>
   </div>

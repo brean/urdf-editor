@@ -6,7 +6,7 @@
   import { Canvas, T } from '@threlte/core';
   import { OrbitControls } from '@threlte/extras';
 
-  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree } from 'urdf-viewer';
+  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfLink } from 'urdf-viewer';
   import { WebGLRenderer } from 'three';
   import MonacoEditor from '$lib/components/MonacoEditor.svelte';
   import Drawer, { AppContent, Content } from '@smui/drawer';
@@ -22,9 +22,21 @@
   const filename = `turtlebot3_description/${robot_name}.xml`;
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
 
+  let onselectionchange = (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => {
+    if (prev) {
+      prev.highlight = false;
+      prev = prev
+    }
+    if (next) {
+      next.highlight = true;
+      next = next
+    }
+  }
+
   onMount(async () => {
     let promise = parser.load();
     let code = await promise;
+    urdf_viewer_state.edit = true;
     urdf_viewer_state.robot = parser.fromString(code);
     xmlText = parser.getURDFXML() ;
   });
@@ -36,7 +48,10 @@
   <div class="drawer-container">
     <Drawer>
       <Content>
-        <SmuiRobot robot={urdf_viewer_state.robot}></SmuiRobot>
+        <SmuiRobot 
+          robot={urdf_viewer_state.robot}
+          {onselectionchange}
+        ></SmuiRobot>
       </Content>
     </Drawer>
 
@@ -69,7 +84,7 @@
         <Grid />
 
         {#if urdf_viewer_state.robot}
-          <UrdfThree></UrdfThree>
+          <UrdfThree {onselectionchange} />
         {/if}
       </Canvas>
     </div>
