@@ -6,23 +6,23 @@
   import { Canvas, T } from '@threlte/core';
   import { OrbitControls } from '@threlte/extras';
 
-  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfLink } from 'urdf-viewer';
+  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfJoint, type IUrdfLink } from 'urdf-viewer';
   import { WebGLRenderer } from 'three';
   import MonacoEditor from '$lib/components/MonacoEditor.svelte';
   import Drawer, { AppContent, Content } from '@smui/drawer';
   import SmuiRobot from '$lib/components/SmuiRobot.svelte';
 
-  let innerHeight = 0;
-  let innerWidth = 0;
-  let xmlText: string = ''
+  let innerHeight = $state(0);
+  let innerWidth = $state(0);
+  let xmlText: string = $state('')
 
-  let prefix = page.url.href + '/../..';
+  const prefix = page.url.href + '/../..';
   const robot_name = page.params.robot_name;
 
   const filename = `turtlebot3_description/${robot_name}.xml`;
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
 
-  let onselectionchange = (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => {
+  const onselectionchange = (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => {
     if (prev) {
       prev.highlight = false;
       prev = prev
@@ -33,12 +33,16 @@
     }
   }
 
+  const onchange = (joint: IUrdfJoint) => {
+    xmlText = parser.getURDFXML();
+  }
+
   onMount(async () => {
     let promise = parser.load();
     let code = await promise;
     urdf_viewer_state.edit = true;
     urdf_viewer_state.robot = parser.fromString(code);
-    xmlText = parser.getURDFXML() ;
+    xmlText = parser.getURDFXML();
   });
 </script>
 <svelte:window
@@ -61,14 +65,14 @@
     </div>
     <div style:width={innerWidth /2 - 260 + 'px'} style:height={innerHeight + 'px'} style:left={'260px'} style:top={0} style:position="fixed">
       <Canvas
-      createRenderer={(canvas) => {
-        return new WebGLRenderer({
-          canvas,
-          alpha: true,
-          powerPreference: 'high-performance',
-          logarithmicDepthBuffer: true
-        })}}
-        shadows>
+        createRenderer={(canvas) => {
+          return new WebGLRenderer({
+            canvas,
+            alpha: true,
+            powerPreference: 'high-performance',
+            logarithmicDepthBuffer: true
+          })}}
+          shadows>
 
         <T.PointLight color="white" intensity={.2} position={[0, 5, 0]} />
         <T.PointLight color="blue" intensity={0.5} position={[5, 5, 0]} />
@@ -84,7 +88,7 @@
         <Grid />
 
         {#if urdf_viewer_state.robot}
-          <UrdfThree {onselectionchange} />
+          <UrdfThree {onselectionchange} {onchange} />
         {/if}
       </Canvas>
     </div>
