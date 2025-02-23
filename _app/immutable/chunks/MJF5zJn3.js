@@ -1,0 +1,1 @@
+import{a0 as c,a1 as r,a2 as i,a3 as s,z as v}from"./CrR2HvaK.js";function u(t,a,e,o=!0){o&&e();for(var f of a)t.addEventListener(f,e);c(()=>{for(var n of a)t.removeEventListener(n,e)})}function l(t){var a=s,e=v;r(null),i(null);try{return t()}finally{r(a),i(e)}}export{u as l,l as w};
