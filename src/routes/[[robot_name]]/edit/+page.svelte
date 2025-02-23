@@ -11,6 +11,8 @@
   import MonacoEditor from '$lib/components/MonacoEditor.svelte';
   import Drawer, { AppContent, Content } from '@smui/drawer';
   import SmuiRobot from '$lib/components/SmuiRobot.svelte';
+  
+  import { Pane, Splitpanes } from 'svelte-splitpanes';
 
   let innerHeight = $state(0);
   let innerWidth = $state(0);
@@ -48,50 +50,61 @@
 <svelte:window
   bind:innerHeight
   bind:innerWidth />
-<main class="main-content">
-  <div class="drawer-container">
-    <Drawer>
-      <Content>
-        <SmuiRobot 
-          robot={urdf_viewer_state.robot}
-          {onselectionchange}
-        ></SmuiRobot>
-      </Content>
-    </Drawer>
 
-    <AppContent class="app-content">
-    <div style:width={innerWidth /2 + 'px'} style:height={innerHeight + 'px'} style:left={innerWidth /2 + 'px'} style:position="fixed" style:top={0} style:background-color="gray">
+<Splitpanes style={'width: ' + innerWidth + 'px; height: ' + innerHeight + 'px'}>
+  <Pane size={15}>
+    <div style:background-color="black" style:height={innerHeight + 'px'}>
+      <SmuiRobot 
+        robot={urdf_viewer_state.robot}
+        {onselectionchange}
+      ></SmuiRobot>
+    </div>
+  </Pane>
+  <Pane size={15}>
+    <div style:background-color="black" style:height={innerHeight + 'px'}>
+      TODO: Inspector
+    </div>
+  </Pane>
+  <Pane>
+    <div style:background-color="black" style:height={innerHeight + 'px'}>
+    <Canvas
+      createRenderer={(canvas) => {
+        return new WebGLRenderer({
+          canvas,
+          alpha: true,
+          powerPreference: 'high-performance',
+          logarithmicDepthBuffer: true
+        })}}
+        shadows>
+
+      <T.PointLight color="white" intensity={.2} position={[0, 5, 0]} />
+      <T.PointLight color="blue" intensity={0.5} position={[5, 5, 0]} />
+      <T.PointLight color="yellow" intensity={0.5} position={[-5, -5, 0]} />
+
+      <T.PerspectiveCamera
+        makeDefault
+        position={[.6, .6, .6]} fov={25}>
+        <OrbitControls enableZoom={true} />
+      </T.PerspectiveCamera>
+  
+      <ThreeStage preset_name="soft" />
+      <Grid />
+
+      {#if urdf_viewer_state.robot}
+        <UrdfThree {onselectionchange} {onchange} />
+      {/if}
+    </Canvas>
+    </div>
+  </Pane>
+  <Pane>
+    <div style:background-color="black" style:height={innerHeight + 'px'}>
       <MonacoEditor bind:text={xmlText} />
     </div>
-    <div style:width={innerWidth /2 - 260 + 'px'} style:height={innerHeight + 'px'} style:left={'260px'} style:top={0} style:position="fixed">
-      <Canvas
-        createRenderer={(canvas) => {
-          return new WebGLRenderer({
-            canvas,
-            alpha: true,
-            powerPreference: 'high-performance',
-            logarithmicDepthBuffer: true
-          })}}
-          shadows>
+  </Pane>
+</Splitpanes>
 
-        <T.PointLight color="white" intensity={.2} position={[0, 5, 0]} />
-        <T.PointLight color="blue" intensity={0.5} position={[5, 5, 0]} />
-        <T.PointLight color="yellow" intensity={0.5} position={[-5, -5, 0]} />
-
-        <T.PerspectiveCamera
-          makeDefault
-          position={[.6, .6, .6]} fov={25}>
-          <OrbitControls enableZoom={true} />
-        </T.PerspectiveCamera>
-    
-        <ThreeStage preset_name="soft" />
-        <Grid />
-
-        {#if urdf_viewer_state.robot}
-          <UrdfThree {onselectionchange} {onchange} />
-        {/if}
-      </Canvas>
-    </div>
-  </AppContent>
-</div>
-</main>
+<style global>
+  .splitpanes.default-theme .splitpanes__splitter {
+    background-color: #4a4a4a !important;
+  }
+</style>

@@ -30,7 +30,7 @@
 
 <style>
   * :global(.robot-list) {
-    max-width: 250px;
+    max-width: 100%;
   }
   * :global(.sub-list) {
     padding-left: 10px;
