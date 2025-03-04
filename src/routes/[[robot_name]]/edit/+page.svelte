@@ -4,7 +4,7 @@
   import { onMount } from 'svelte';
 
   import { Canvas, T } from '@threlte/core';
-  import { OrbitControls } from '@threlte/extras';
+  import { Gizmo, OrbitControls } from '@threlte/extras';
 
   import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfJoint, type IUrdfLink } from 'urdf-viewer';
   import { WebGLRenderer } from 'three';
@@ -13,6 +13,7 @@
   import SmuiRobot from '$lib/components/SmuiRobot.svelte';
   
   import { Pane, Splitpanes } from 'svelte-splitpanes';
+  import Inspector from '$lib/components/inspector/Inspector.svelte';
 
   let innerHeight = $state(0);
   let innerWidth = $state(0);
@@ -62,7 +63,7 @@
   </Pane>
   <Pane size={15}>
     <div style:background-color="black" style:height={innerHeight + 'px'}>
-      TODO: Inspector
+      <Inspector />
     </div>
   </Pane>
   <Pane>
@@ -83,8 +84,14 @@
 
       <T.PerspectiveCamera
         makeDefault
+        up={[0, 0, 1]}
+        forward={[1, 0, 0]}
+        eulerOrder={"XZY"}
         position={[.6, .6, .6]} fov={25}>
-        <OrbitControls enableZoom={true} />
+        <OrbitControls
+          enableZoom>
+          <Gizmo />
+        </OrbitControls>
       </T.PerspectiveCamera>
   
       <ThreeStage preset_name="soft" />

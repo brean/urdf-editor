@@ -1,0 +1,76 @@
+<script lang="ts">
+  import { urdf_viewer_state } from 'urdf-viewer';
+  import Button, { Group, Icon, Label } from '@smui/button';
+  import Textfield from '@smui/textfield';
+  import { editor_state } from '$lib/state/editor.svelte';
+
+  const tools: {name: 'scale' | 'translate' | 'rotate', icon: string}[] = [
+    { name: 'translate', icon: 'north_west' },
+    { name: 'rotate', icon: 'sync' },
+    { name: 'scale', icon: 'zoom_out_map' }
+  ];
+
+  const scaleLabel = {
+    'translate': 'snap to grid in meter',
+    'rotate': 'roate in degree euler',
+    'scale': 'snap to next size in meter'
+  }
+
+
+  let snapValue = $state(
+    urdf_viewer_state.tool == 'translate' ? editor_state.translationSnap : 
+    (urdf_viewer_state.tool == 'scale' ? editor_state.scaleSnap : 
+    editor_state.rotationSnap
+    ));
+
+</script>
+<Group style="width: 100%">
+  <Button
+    class="material-icons"
+    variant={'outlined'}
+    style="width: 25%"
+      onclick={() => {
+        urdf_viewer_state.selected = undefined;
+        editor_state.preview = undefined;
+      }}>
+        pan_tool_alt
+    </Button>
+  {#each tools as _tool}
+    <Button
+      class="material-icons"
+      variant={_tool.name == urdf_viewer_state.tool ? 'raised' : 'outlined'}
+      style="width: 25%"
+      onclick={() => {
+        urdf_viewer_state.tool = _tool.name;
+        editor_state.preview = undefined;
+      }}>
+        {_tool.icon}
+    </Button>
+  {/each}
+</Group>
+
+<div style="margin: 10px">
+<Textfield
+  label={scaleLabel[urdf_viewer_state.tool]}
+  oninput={() => {
+    let value = Number(snapValue);
+    if (isNaN(value)) {
+      value = 1
+    }
+    switch (urdf_viewer_state.tool) {
+      case 'translate':
+      editor_state.translationSnap = value;
+        return;
+      case 'scale':
+      editor_state.scaleSnap = value;
+        return;
+      case 'rotate':
+      editor_state.rotationSnap = value;
+        return;
+    }
+  }}
+  style="width: 100%;"
+  bind:value={snapValue}
+  variant="outlined" />
+
+</div>

@@ -27,11 +27,15 @@
       return
     }
     if (onselectionchange) {
-      onselectionchange(urdf_viewer_state.selection, link)
+      onselectionchange(urdf_viewer_state.selectedLink, link)
     }
-    urdf_viewer_state.selection = link
+    urdf_viewer_state.selectedJoint = joint
+    urdf_viewer_state.selectedLink = undefined
   }}
-  selected={urdf_viewer_state.selection == joint.child}>
+  selected={
+    urdf_viewer_state.selectedJoint == joint || 
+    urdf_viewer_state.selectedLink == joint.child
+  }>
   <Text class="bigtext">
     <!-- Joint -->
     <PrimaryText>{joint.name}</PrimaryText>
