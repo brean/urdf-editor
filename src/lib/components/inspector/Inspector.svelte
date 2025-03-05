@@ -1,14 +1,33 @@
 <script>
   import { urdf_viewer_state } from "urdf-viewer";
   import ToolSelect from "./ToolSelect.svelte";
-  import List, { Item, Text } from "@smui/list";
+  import List, { Item, Label, Text } from "@smui/list";
   import TextEdit from "./TextEdit.svelte";
   import NumberInspector from "./NumberInspector.svelte";
-  import Button from "@smui/button";
+  import Button, { Icon } from "@smui/button";
+	import DeleteDialog from '$lib/components/dialogs/DeleteDialog.svelte';
+
+  let open = $state(false);
+  let confirmDelete = $state(false);
 
 </script>
 <ToolSelect />
+
+
+
 <List class="inspector-list" nonInteractive>
+  <Item>
+    <Button
+      onclick={() => {
+        open = !open;
+      }}
+      style="width: 100%; text-transform: none;"
+      variant={"outlined"}>
+    <Icon class="material-icons">add</Icon>
+    <Label>Add Joint</Label>
+    <!-- create a new joint where this link is the parent -->
+  </Button>
+  </Item>
   {#if urdf_viewer_state.selectedJoint}
     <Item><Text>Joint</Text></Item>
     <TextEdit element={urdf_viewer_state.selectedJoint} />
@@ -41,14 +60,18 @@
 <Item>
   <Button
     onclick={() => {
-      urdf_viewer_state.selectedLink = urdf_viewer_state.selectedJoint.parent
+      if (urdf_viewer_state.selectedJoint) {
+        urdf_viewer_state.selectedLink = urdf_viewer_state.selectedJoint.parent;
+      }
       urdf_viewer_state.selectedJoint = undefined;
     }}
   >{urdf_viewer_state.selectedJoint.parent.name}</Button>
 </Item><Item>
     <Button
     onclick={() => {
-      urdf_viewer_state.selectedLink = urdf_viewer_state.selectedJoint.child
+      if (urdf_viewer_state.selectedJoint) {
+        urdf_viewer_state.selectedLink = urdf_viewer_state.selectedJoint.child;
+      }
       urdf_viewer_state.selectedJoint = undefined;
     }}
   >{urdf_viewer_state.selectedJoint.child.name}</Button>
