@@ -37,7 +37,7 @@
 		"smui-theme": "^8.0.0-beta.3",
 		"svelte": "^5.0.0",
 		"three": "^0.173.0",
-		"urdf-viewer": "^0.1.3",
+		"urdf-viewer": "^0.2.0",
 		"svelte-splitpanes": "^8.0.9"
 	},
 	"type": "module",
