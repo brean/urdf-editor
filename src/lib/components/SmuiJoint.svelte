@@ -5,12 +5,10 @@
 
   interface Props {
     joint: IUrdfJoint
-    onselectionchange?: (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => void
   }
   
   let {
     joint = $bindable(),
-    onselectionchange = undefined
   }: Props = $props();
   let childJoints: IUrdfJoint[] = $state([]);
 
@@ -25,9 +23,6 @@
     const link = joint?.child;
     if (!link) {
       return
-    }
-    if (onselectionchange) {
-      onselectionchange(urdf_viewer_state.selectedLink, link)
     }
     urdf_viewer_state.selectedJoint = joint
     urdf_viewer_state.selectedLink = undefined
@@ -49,7 +44,7 @@
   <Item wrapper>
     <List class="sub-list">
       {#each childJoints as childJoint}
-        <SmuiJoint joint={childJoint} {onselectionchange} />
+        <SmuiJoint joint={childJoint} />
       {/each}
     </List>
   </Item>

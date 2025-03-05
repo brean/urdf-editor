@@ -4,9 +4,9 @@
   import { onMount } from 'svelte';
 
   import { Canvas, T } from '@threlte/core';
-  import { OrbitControls } from '@threlte/extras';
+  import { OrbitControls, Grid, Gizmo } from '@threlte/extras';
 
-  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfLink } from 'urdf-viewer';
+  import { ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfLink } from 'urdf-viewer';
   import { WebGLRenderer } from 'three';
 
   let innerHeight = $state(0);
@@ -25,19 +25,8 @@
   });
 
   $effect(() => {
-    console.log(urdf_viewer_state.selection)
   })
 
-  let onselectionchange = (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => {
-    if (prev) {
-      prev.highlight = false;
-      prev = prev
-    }
-    if (next) {
-      next.highlight = true;
-      next = next
-    }
-  }
 </script>
 <svelte:window
   bind:innerHeight
@@ -54,21 +43,33 @@
       })}}
       shadows>
 
-      <T.PointLight color="white" intensity={.2} position={[0, 5, 0]} />
-      <T.PointLight color="blue" intensity={0.5} position={[5, 5, 0]} />
-      <T.PointLight color="yellow" intensity={0.5} position={[-5, -5, 0]} />
+      <T.Group rotation={[-Math.PI/2, 0, 0]}>
+        <T.HemisphereLight
+          skycolor={0xB1E1FF}
+          groundColor={0xB97A20}
+          intensity={.2}
+        ></T.HemisphereLight>
+
+        <Grid cellSize={0.1} />
+      </T.Group>
+
 
       <T.PerspectiveCamera
         makeDefault
+        up={[0, 0, 1]}
+        forward={[1, 0, 0]}
+        eulerOrder={"XZY"}
         position={[.6, .6, .6]} fov={25}>
-        <OrbitControls enableZoom={true} />
+        <OrbitControls
+          enableZoom>
+          <Gizmo />
+        </OrbitControls>
       </T.PerspectiveCamera>
   
       <ThreeStage preset_name="soft" />
-      <Grid />
 
       {#if urdf_viewer_state.robot}
-        <UrdfThree {onselectionchange} />
+        <UrdfThree />
       {/if}
     </Canvas>
   </div>

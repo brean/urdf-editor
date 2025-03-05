@@ -18,9 +18,9 @@
 
 
   let snapValue = $state(
-    urdf_viewer_state.tool == 'translate' ? editor_state.translationSnap : 
-    (urdf_viewer_state.tool == 'scale' ? editor_state.scaleSnap : 
-    editor_state.rotationSnap
+    urdf_viewer_state.tool == 'translate' ? urdf_viewer_state.translationSnap : 
+    (urdf_viewer_state.tool == 'scale' ? urdf_viewer_state.scaleSnap : 
+    urdf_viewer_state.rotationSnap
     ));
 
 </script>
@@ -30,7 +30,8 @@
     variant={'outlined'}
     style="width: 25%"
       onclick={() => {
-        urdf_viewer_state.selected = undefined;
+        urdf_viewer_state.selectedJoint = undefined;
+        urdf_viewer_state.selectedLink = undefined;
         editor_state.preview = undefined;
       }}>
         pan_tool_alt
@@ -51,7 +52,7 @@
 
 <div style="margin: 10px">
 <Textfield
-  label={scaleLabel[urdf_viewer_state.tool]}
+  label={urdf_viewer_state.tool ? scaleLabel[urdf_viewer_state.tool] : ''}
   oninput={() => {
     let value = Number(snapValue);
     if (isNaN(value)) {
@@ -59,13 +60,13 @@
     }
     switch (urdf_viewer_state.tool) {
       case 'translate':
-      editor_state.translationSnap = value;
+        urdf_viewer_state.translationSnap = value;
         return;
       case 'scale':
-      editor_state.scaleSnap = value;
+        urdf_viewer_state.scaleSnap = value;
         return;
       case 'rotate':
-      editor_state.rotationSnap = value;
+        urdf_viewer_state.rotationSnap = value;
         return;
     }
   }}

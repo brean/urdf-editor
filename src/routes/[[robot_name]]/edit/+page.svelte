@@ -4,9 +4,9 @@
   import { onMount } from 'svelte';
 
   import { Canvas, T } from '@threlte/core';
-  import { Gizmo, OrbitControls } from '@threlte/extras';
+  import { Gizmo, OrbitControls, Grid } from '@threlte/extras';
 
-  import { Grid, ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfJoint, type IUrdfLink } from 'urdf-viewer';
+  import { ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfJoint, type IUrdfLink } from 'urdf-viewer';
   import { WebGLRenderer } from 'three';
   import MonacoEditor from '$lib/components/MonacoEditor.svelte';
   import Drawer, { AppContent, Content } from '@smui/drawer';
@@ -25,19 +25,9 @@
   const filename = `turtlebot3_description/${robot_name}.xml`;
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
 
-  const onselectionchange = (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => {
-    if (prev) {
-      prev.highlight = false;
-      prev = prev
-    }
-    if (next) {
-      next.highlight = true;
-      next = next
-    }
-  }
-
-  const onchange = (joint: IUrdfJoint) => {
+  const ondatachange = (e: any) => {
     xmlText = parser.getURDFXML();
+    console.log(xmlText);
   }
 
   onMount(async () => {
@@ -57,7 +47,6 @@
     <div style:background-color="black" style:height={innerHeight + 'px'}>
       <SmuiRobot 
         robot={urdf_viewer_state.robot}
-        {onselectionchange}
       ></SmuiRobot>
     </div>
   </Pane>
@@ -78,9 +67,16 @@
         })}}
         shadows>
 
-      <T.PointLight color="white" intensity={.2} position={[0, 5, 0]} />
-      <T.PointLight color="blue" intensity={0.5} position={[5, 5, 0]} />
-      <T.PointLight color="yellow" intensity={0.5} position={[-5, -5, 0]} />
+      <T.Group rotation={[-Math.PI/2, 0, 0]}>
+        <T.HemisphereLight
+          skycolor={0xB1E1FF}
+          groundColor={0xB97A20}
+          intensity={.2}
+        ></T.HemisphereLight>
+
+        <Grid cellSize={0.1} />
+      </T.Group>
+
 
       <T.PerspectiveCamera
         makeDefault
@@ -95,10 +91,9 @@
       </T.PerspectiveCamera>
   
       <ThreeStage preset_name="soft" />
-      <Grid />
 
       {#if urdf_viewer_state.robot}
-        <UrdfThree {onselectionchange} {onchange} />
+        <UrdfThree {ondatachange} />
       {/if}
     </Canvas>
     </div>

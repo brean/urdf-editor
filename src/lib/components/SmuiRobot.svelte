@@ -6,12 +6,10 @@
 
   interface Props {
     robot: IUrdfRobot | undefined
-    onselectionchange?: (prev: IUrdfLink | undefined, next: IUrdfLink | undefined) => void
   }
   
   let {
-    robot = $bindable(undefined),
-    onselectionchange = undefined
+    robot = $bindable(undefined)
   }: Props = $props();
   
 </script>
@@ -23,7 +21,7 @@
   </Item>
 
   {#each getRootJoints(robot) as joint}
-  <SmuiJoint {onselectionchange} {joint} />
+  <SmuiJoint {joint} />
   {/each}
 </List>
 {/if}
