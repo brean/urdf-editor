@@ -1,10 +1,10 @@
 <script lang="ts">
   import loader from '@monaco-editor/loader';
   import { onDestroy, onMount } from 'svelte';
-  import type * as Monaco from 'monaco-editor/esm/vs/editor/editor.api';
+  import type monaco from 'monaco-editor';
 
-  let monaco: typeof Monaco;
-  let editor = $state();
+  let _monaco: typeof monaco;
+  let editor: monaco.editor.IStandaloneCodeEditor | undefined = $state();
   let editorContainer: HTMLElement;
 
   interface Props {
@@ -22,9 +22,9 @@
       monaco: monacoEditor.default,
     });
 
-    monaco = await loader.init();
+    _monaco = await loader.init();
     // Your monaco instance is ready, let's display some code!
-    editor = monaco.editor.create(
+    editor = _monaco.editor.create(
       editorContainer,
       {
         value: text,
@@ -37,10 +37,10 @@
   });
 
   onDestroy(() => {
-    if (!monaco) {
+    if (!_monaco) {
       return
     }
-    monaco.editor.getModels().forEach(
+    _monaco.editor.getModels().forEach(
       (model) => model.dispose());
   });
 

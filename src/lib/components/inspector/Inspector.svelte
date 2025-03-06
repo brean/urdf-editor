@@ -1,10 +1,11 @@
 <script lang="ts">
   import { urdf_viewer_state } from "urdf-viewer";
   import ToolSelect from "./ToolSelect.svelte";
-  import List, { Item, Label, Text } from "@smui/list";
+  import List, { Item, Label, Text, Meta } from "@smui/list";
   import TextEdit from "./TextEdit.svelte";
   import NumberInspector from "./NumberInspector.svelte";
   import Button, { Icon } from "@smui/button";
+  import IconButton from "@smui/icon-button";
 
   interface Props {
     ondatachange?: (e: any) => void
@@ -14,6 +15,21 @@
     ondatachange = undefined
   }: Props = $props();
   let open = $state(false);
+
+  function deleteSelectedJoint() {
+    // we should also delete the connected child link?!
+    const joint = urdf_viewer_state.selectedJoint;
+    if (!joint) {
+      return joint;
+    }
+    joint.elem.parentElement?.removeChild(
+      joint.elem
+    )
+    ondatachange(undefined);
+
+    urdf_viewer_state.selectedJoint = undefined;
+    // TODO: reload xml from parser
+  }
 </script>
 <ToolSelect />
 
@@ -48,13 +64,22 @@
       }} />
   {/if}
   {#if urdf_viewer_state.selectedJoint}
-    <Item><Text>Joint</Text></Item>
+    <Item>
+      <Text>Joint</Text>
+      <Meta>
+        <IconButton
+          onclick={deleteSelectedJoint}
+          class="material-icons">delete</IconButton>
+      </Meta>
+    </Item>
     <TextEdit element={urdf_viewer_state.selectedJoint} />
     <NumberInspector data={urdf_viewer_state.selectedJoint.origin_xyz} />
     <NumberInspector keys={['r', 'p', 'y']} data={urdf_viewer_state.selectedJoint.origin_rpy} />
   {/if}
   {#if urdf_viewer_state.selectedLink}
-    <Item><Text>Link</Text></Item>
+    <Item>
+      <Text>Link</Text>
+    </Item>
     <TextEdit element={urdf_viewer_state.selectedLink} />
     {#if urdf_viewer_state.selectedLink.visual}
       <Item><Text>Visuals</Text></Item>
@@ -85,8 +110,9 @@
       urdf_viewer_state.selectedJoint = undefined;
     }}
   >{urdf_viewer_state.selectedJoint.parent.name}</Button>
-</Item><Item>
-    <Button
+</Item>
+<Item>
+  <Button
     onclick={() => {
       if (urdf_viewer_state.selectedJoint) {
         urdf_viewer_state.selectedLink = urdf_viewer_state.selectedJoint.child;
