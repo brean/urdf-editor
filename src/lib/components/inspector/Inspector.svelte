@@ -5,10 +5,8 @@
   import TextEdit from "./TextEdit.svelte";
   import NumberInspector from "./NumberInspector.svelte";
   import Button, { Icon } from "@smui/button";
-	import DeleteDialog from '$lib/components/dialogs/DeleteDialog.svelte';
 
   let open = $state(false);
-  let confirmDelete = $state(false);
 
 </script>
 <ToolSelect />
