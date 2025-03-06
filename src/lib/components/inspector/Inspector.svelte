@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { urdf_viewer_state } from "urdf-viewer";
   import ToolSelect from "./ToolSelect.svelte";
   import List, { Item, Label, Text } from "@smui/list";
@@ -6,8 +6,14 @@
   import NumberInspector from "./NumberInspector.svelte";
   import Button, { Icon } from "@smui/button";
 
-  let open = $state(false);
+  interface Props {
+    ondatachange?: (e: any) => void
+  }
 
+  let {
+    ondatachange = undefined
+  }: Props = $props();
+  let open = $state(false);
 </script>
 <ToolSelect />
 
@@ -26,6 +32,21 @@
     <!-- create a new joint where this link is the parent -->
   </Button>
   </Item>
+  {#if urdf_viewer_state.robot && !urdf_viewer_state.selectedJoint && !urdf_viewer_state.selectedLink}
+    <Item><Text>Robot</Text></Item>
+    <TextEdit
+      element={urdf_viewer_state.robot}
+      oninput={() => {
+        if (!urdf_viewer_state.robot || !urdf_viewer_state.robot.elem) {
+          return;
+        }
+        urdf_viewer_state.robot.elem.setAttribute(
+          'name', urdf_viewer_state.robot.name);
+        if (ondatachange) {
+          ondatachange()
+        };
+      }} />
+  {/if}
   {#if urdf_viewer_state.selectedJoint}
     <Item><Text>Joint</Text></Item>
     <TextEdit element={urdf_viewer_state.selectedJoint} />

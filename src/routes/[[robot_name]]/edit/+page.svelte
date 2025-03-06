@@ -65,7 +65,7 @@
   </Pane>
   <Pane size={15}>
     <div style:background-color="black" style:height={innerHeight + 'px'}>
-      <Inspector />
+      <Inspector {ondatachange} />
     </div>
   </Pane>
   <Pane>

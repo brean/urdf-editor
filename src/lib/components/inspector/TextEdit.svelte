@@ -3,7 +3,13 @@
 import { Item } from "@smui/list";
 import Textfield from "@smui/textfield";
 
-let { element }: { element: {name?: string} } = $props();
+let {
+  element,
+  oninput
+}: { 
+  element: {name?: string}
+  oninput?: () => void
+} = $props();
 
 </script>
 {#if element.name}
@@ -12,6 +18,10 @@ let { element }: { element: {name?: string} } = $props();
     label="name"
     bind:value={element.name}
     variant="outlined"
+    oninput={() => {
+      if (oninput)
+        oninput();
+    }}
   />
 </Item>
 {/if}
