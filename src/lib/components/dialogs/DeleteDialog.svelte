@@ -4,10 +4,10 @@
 
   let {
     open = $bindable(false),
-    ondatachange = undefined
+    resetRobot = undefined
   }: {
     open: boolean,
-    ondatachange?: (e: any) => void
+    resetRobot?: () => void
   } = $props();
 </script>
 
@@ -27,8 +27,8 @@
     </Button>
     <Button onclick={
       (e: any) => {
-        if (ondatachange) {
-          ondatachange(e)
+        if (resetRobot) {
+          resetRobot()
         }
       }}>
       <Label>Yes</Label>

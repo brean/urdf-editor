@@ -42,7 +42,7 @@
 		"svelte": "^5.0.0",
 		"svelte-splitpanes": "^8.0.9",
 		"three": "^0.173.0",
-		"urdf-viewer": "^0.2.6"
+		"urdf-viewer": "^0.2.7"
 	},
 	"type": "module",
 	"devDependencies": {

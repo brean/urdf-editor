@@ -8,7 +8,7 @@
   import IconButton from "@smui/icon-button";
 
   interface Props {
-    ondatachange?: (e: any) => void
+    ondatachange?: (e?: any) => void
   }
 
   let {
@@ -25,7 +25,9 @@
     joint.elem.parentElement?.removeChild(
       joint.elem
     )
-    ondatachange(undefined);
+    if (ondatachange) {
+      ondatachange();
+    }
 
     urdf_viewer_state.selectedJoint = undefined;
     // TODO: reload xml from parser

@@ -6,8 +6,8 @@
   import { Canvas, T } from '@threlte/core';
   import { Gizmo, OrbitControls, Grid } from '@threlte/extras';
 
-  import { ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree } from 'urdf-viewer';
-  import { WebGLRenderer } from 'three';
+  import { ThreeStage, urdf_viewer_state, UrdfParser, UrdfThree, type IUrdfJoint, type IUrdfLink } from 'urdf-viewer';
+  import { Object3D, Vector3, WebGLRenderer } from 'three';
   import MonacoEditor from '$lib/components/MonacoEditor.svelte';
   import SmuiRobot from '$lib/components/SmuiRobot.svelte';
   
@@ -16,7 +16,9 @@
   import DeleteDialog from '$lib/components/dialogs/DeleteDialog.svelte';
   import SettingsDialog from '$lib/components/dialogs/SettingsDialog.svelte';
   import Fab, { Icon as FabIcon } from '@smui/fab';
+  import Preview from '$lib/components/Preview.svelte';
 
+  let preview: IUrdfJoint | undefined = $state(undefined)
   let innerHeight = $state(0);
   let innerWidth = $state(0);
   let xmlText: string = $state('')
@@ -29,14 +31,25 @@
   const filename = `turtlebot3_description/${robot_name}.xml`;
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
 
-  const resetRobot = (e: any) => {
-    parser.fromString(
+  Object3D.DEFAULT_UP = new Vector3(0,0,1);
+
+  const resetRobot = () => {
+    parser.reset()
+    const robot = parser.fromString(
       '<?xml version="1.0" ?>\n<robot name="my robot">\n</robot>')
     xmlText = parser.getURDFXML();
-    parser.reset()
-    urdf_viewer_state.robot = parser.robot;
+    urdf_viewer_state.robot = robot;
     urdf_viewer_state.selectedJoint = undefined;
     urdf_viewer_state.selectedLink = undefined;
+  }
+
+  function setPreview(parent: IUrdfLink) {
+    // preview = {
+    //   name: 'new joint',
+    //   type: 'fixed',
+
+    //   axis_xyz: [0, 0, 0],
+    // }
   }
 
   const ondatachange = (e: any) => {
@@ -93,9 +106,6 @@
 
       <T.PerspectiveCamera
         makeDefault
-        up={[0, 0, 1]}
-        forward={[1, 0, 0]}
-        eulerOrder={"XZY"}
         position={[.6, .6, .6]} fov={25}>
         <OrbitControls
           enableZoom>
@@ -107,6 +117,10 @@
 
       {#if urdf_viewer_state.robot}
         <UrdfThree {ondatachange} />
+      {/if}
+
+      {#if preview}
+        <Preview {preview} />
       {/if}
     </Canvas>
     </div>
@@ -120,7 +134,7 @@
 
 <DeleteDialog
   bind:open={confirmDelete}
-  ondatachange={resetRobot} />
+  {resetRobot} />
 <SettingsDialog
   bind:open={settingsDialog} />
 

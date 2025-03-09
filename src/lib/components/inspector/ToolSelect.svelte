@@ -12,7 +12,7 @@
 
   const scaleLabel = {
     'translate': 'snap to grid in meter',
-    'rotate': 'roate in degree euler',
+    'rotate': 'rotate in degree Euler angles',
     'scale': 'snap to next size in meter'
   }
 
