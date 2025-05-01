@@ -20,7 +20,7 @@
         <Cell>
           <Card>
             <PrimaryAction onclick={() => {
-              goto(robot.name + '/view')
+              goto(robot.name + '/edit')
             }}>
               <Media class="card-media-16x9" aspectRatio="16x9" />
               <Content class="mdc-typography--body2">
