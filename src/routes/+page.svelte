@@ -4,13 +4,21 @@
 
   // SMUI
   import { AppContent } from "@smui/drawer";
-  import Card, { ActionIcons, Actions, Content, Media, PrimaryAction } from '@smui/card';
+  import Card, { ActionIcons, Actions, Content, Media, MediaContent, PrimaryAction } from '@smui/card';
   import IconButton from "@smui/icon-button";
   import LayoutGrid, { Cell } from '@smui/layout-grid';
 
   // data
   import { robots } from "$lib/data/robots";
-
+  import { page } from "$app/state";
+  
+  robots.push({
+    name: "_new_robot",
+    desc: "Create a new URDF from scratch",
+    title: "new URDF",
+    package: "robot_description",
+  })
+  const prefix = page.url.href + '/..';
 </script>
 
 <AppContent >
@@ -22,8 +30,12 @@
             <PrimaryAction onclick={() => {
               goto(robot.name + '/edit')
             }}>
-              <Media class="card-media-16x9" aspectRatio="16x9" />
-              <Content class="mdc-typography--body2">
+              <Media class="card-media-16x9" aspectRatio="16x9">
+                <MediaContent>
+                </MediaContent>
+                <div
+                  style="color: #fff; position: absolute; bottom: 16px; left: 16px;"
+                >
                 <h2 class="mdc-typography--headline6" style="margin: 0;">
                   {robot.title}
                 </h2>
@@ -33,7 +45,8 @@
                 >
                   {robot.desc}
                 </h3>
-              </Content>
+                </div>
+              </Media>
             </PrimaryAction>
             <Actions>
               <ActionIcons>

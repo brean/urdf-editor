@@ -14,7 +14,6 @@
   let {
     ondatachange = undefined
   }: Props = $props();
-  let open = $state(false);
 
   function deleteSelectedJoint() {
     // we should also delete the connected child link?!
@@ -41,7 +40,7 @@
   <Item>
     <Button
       onclick={() => {
-        open = !open;
+        // TODO: create new JointPreview
       }}
       style="width: 100%; text-transform: none;"
       variant={"outlined"}>

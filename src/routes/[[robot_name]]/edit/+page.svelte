@@ -36,7 +36,7 @@
   const resetRobot = () => {
     parser.reset()
     const robot = parser.fromString(
-      '<?xml version="1.0" ?>\n<robot name="my robot">\n</robot>')
+      '<?xml version="1.0" ?>\n<robot name="new_robot">\n</robot>')
     xmlText = parser.getURDFXML();
     urdf_viewer_state.robot = robot;
     urdf_viewer_state.selectedJoint = undefined;
@@ -57,11 +57,15 @@
   }
 
   onMount(async () => {
-    let promise = parser.load();
-    let code = await promise;
-    urdf_viewer_state.edit = true;
-    urdf_viewer_state.robot = parser.fromString(code);
-    xmlText = parser.getURDFXML();
+    if (robot_name !== "_new_robot") {
+      let promise = parser.load();
+      let code = await promise;
+      urdf_viewer_state.edit = true;
+      urdf_viewer_state.robot = parser.fromString(code);
+      xmlText = parser.getURDFXML();
+    } else {
+      resetRobot();
+    }
   });
 </script>
 <svelte:window
