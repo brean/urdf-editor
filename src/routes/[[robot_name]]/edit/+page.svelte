@@ -73,15 +73,15 @@
   bind:innerWidth />
 
 <Splitpanes style={'width: ' + innerWidth + 'px; height: ' + innerHeight + 'px'}>
-  <Pane size={15}>
-    <div style:background-color="black" style:height={innerHeight + 'px'}>
-      <SmuiRobot 
+  <Pane size={15} class="scroll-pane">
+    <div style:background-color="black" style:height={innerHeight + 'px'} style:overflow-x="auto">
+      <SmuiRobot
         robot={urdf_viewer_state.robot}
       ></SmuiRobot>
     </div>
   </Pane>
   <Pane size={15}>
-    <div style:background-color="black" style:height={innerHeight + 'px'}>
+    <div style:background-color="black" style:min-height={innerHeight + 'px'}>
       <Inspector {ondatachange} />
     </div>
   </Pane>
