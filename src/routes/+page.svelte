@@ -12,12 +12,6 @@
   import { robots } from "$lib/data/robots";
   import { page } from "$app/state";
   
-  robots.push({
-    name: "_new_robot",
-    desc: "Create a new URDF from scratch",
-    title: "new URDF",
-    package: "robot_description",
-  })
   const prefix = page.url.href + '/..';
 </script>
 
@@ -30,11 +24,8 @@
             <PrimaryAction onclick={() => {
               goto(robot.name + '/edit')
             }}>
-              <Media class="card-media-16x9" aspectRatio="16x9">
-                <MediaContent>
-                </MediaContent>
                 <div
-                  style="color: #fff; position: absolute; bottom: 16px; left: 16px;"
+                  style="color: #fff; margin: 16px;"
                 >
                 <h2 class="mdc-typography--headline6" style="margin: 0;">
                   {robot.title}
@@ -46,7 +37,6 @@
                   {robot.desc}
                 </h3>
                 </div>
-              </Media>
             </PrimaryAction>
             <Actions>
               <ActionIcons>

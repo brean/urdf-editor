@@ -16,6 +16,12 @@ const robots = [
     package: 'pi_robot',
     desc: 'A simple example robot',
     title: 'Pi Robot'
+  },
+  {
+    name: "_new_robot",
+    desc: "Create a new URDF from scratch",
+    title: "new URDF",
+    package: "robot_description",
   }
 ]
 
