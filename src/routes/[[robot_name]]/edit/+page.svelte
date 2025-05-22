@@ -28,7 +28,7 @@
   const prefix = page.url.href + '/../..';
   const robot_name = page.params.robot_name;
 
-  const filename = `turtlebot3_description/${robot_name}.xml`;
+  const filename = `${robot_name}.xml`;
   const parser = new UrdfParser(`${prefix}/${filename}`, prefix);
 
   Object3D.DEFAULT_UP = new Vector3(0,0,1);

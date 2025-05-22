@@ -10,6 +10,12 @@ const robots = [
     package: 'turtlebot3_description',
     desc: 'The TurtleBot 3 burger robot with camera in the waffle configuration by ROBOTIS',
     title: 'Turtlebot 3 Waffle'
+  },
+  {
+    name: 'pi_robot',
+    package: 'pi_robot',
+    desc: 'A simple example robot',
+    title: 'Pi Robot'
   }
 ]
 
